@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel — La Vellune</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0e10'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23c8a261' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <!-- LOGIN (demo) -->
+  <div id="login" class="login-screen hide">
+    <form class="login-card" id="login-form">
+      <span class="logo">La <b style="color:var(--accent);font-weight:500">Vellune</b></span>
+      <p class="muted" style="text-align:center;margin-bottom:var(--sp-5)">Painel administrativo</p>
+      <div class="field" style="margin-bottom:var(--sp-4)"><span>Usuário</span>
+        <input class="input" id="l-user" autocomplete="username" value="admin"></div>
+      <div class="field" style="margin-bottom:var(--sp-4)"><span>Senha</span>
+        <input class="input" id="l-pass" type="password" autocomplete="current-password"></div>
+      <p id="l-error" style="color:var(--danger);font-size:var(--fs-sm);margin-bottom:var(--sp-3)"></p>
+      <button class="btn btn-primary btn-block" type="submit">Entrar</button>
+      <div class="demo-hint">Acesso de demonstração &middot; usuário <b>admin</b> &middot; senha <b>lavellune</b></div>
+    </form>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="admin-layout hide">
+    <aside class="admin-side">
+      <a href="../index.html" class="logo">La <b style="color:var(--accent);font-weight:500">Vellune</b></a>
+      <button class="nav-item active" data-go="products">▣ Produtos</button>
+      <button class="nav-item" data-go="new">＋ Novo produto</button>
+      <button class="nav-item" data-go="settings">⚙ Loja</button>
+      <div class="spacer"></div>
+      <a href="../index.html" class="nav-item">↗ Ver loja</a>
+      <button class="nav-item" id="reset-demo">⟳ Restaurar demo</button>
+      <button class="nav-item" id="logout">⎋ Sair</button>
+    </aside>
+
+    <main class="admin-main">
+      <div class="notice notice-demo">Modo demonstração — os dados ficam salvos só neste navegador (localStorage). Nada é enviado a um servidor.</div>
+
+      <!-- PRODUTOS -->
+      <section class="section active" id="sec-products">
+        <div class="page-head">
+          <div><span class="kicker">Catálogo</span><h1>Produtos</h1></div>
+          <button class="btn btn-primary" onclick="document.querySelector('[data-go=new]').click()">＋ Novo produto</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="label">Produtos</div><div class="value" id="stat-products">0</div></div>
+          <div class="stat"><div class="label">Itens em estoque</div><div class="value" id="stat-units">0</div></div>
+          <div class="stat warn" id="stat-low-card"><div class="label">Estoque baixo</div><div class="value" id="stat-low">0</div></div>
+          <div class="stat"><div class="label">Categorias</div><div class="value" id="stat-cats">0</div></div>
+        </div>
+        <div class="panel">
+          <table class="table">
+            <thead><tr><th>Foto</th><th>Produto</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th></th></tr></thead>
+            <tbody id="product-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- NOVO / EDITAR -->
+      <section class="section" id="sec-new">
+        <div class="page-head"><div><span class="kicker">Cadastro</span><h1 id="form-title">Novo produto</h1></div></div>
+        <div class="panel" style="padding:var(--sp-6)">
+          <form id="product-form">
+            <input type="hidden" name="id_">
+            <div class="form-grid">
+              <label class="field full"><span>Nome do produto *</span><input class="input" name="name_" required></label>
+              <label class="field"><span>Marca</span><input class="input" name="brand_"></label>
+              <label class="field"><span>Categoria</span><input class="input" name="category_" placeholder="Ex: Vestidos" list="cat-list"></label>
+              <label class="field"><span>Preço (R$) *</span><input class="input" name="price_" type="number" step="0.01" min="0" required></label>
+              <label class="field"><span>Preço antigo (opcional)</span><input class="input" name="oldPrice_" type="number" step="0.01" min="0"></label>
+              <label class="field"><span>Estoque</span><input class="input" name="stock_" type="number" min="0" value="0"></label>
+              <label class="field"><span>Tamanhos (separe por vírgula)</span><input class="input" name="sizes_" placeholder="P, M, G"></label>
+              <label class="field full"><span>Cores (separe por vírgula)</span><input class="input" name="colors_" placeholder="Preto, Caramelo"></label>
+              <label class="field full"><span>Descrição</span><textarea class="textarea" name="desc_"></textarea></label>
+              <label class="field"><span>Imagem por URL</span><input class="input" name="imageUrl_" placeholder="https://…"></label>
+              <label class="field"><span>…ou enviar arquivo</span><input class="input" name="imageFile_" type="file" accept="image/*"></label>
+              <div class="field"><span>Pré-visualização</span><img id="img-preview" class="img-preview" alt=""></div>
+              <label class="filter-check full" style="margin-top:4px"><input type="checkbox" name="featured_"> Destacar na vitrine</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Salvar produto</button>
+              <button class="btn btn-outline" type="button" id="form-cancel">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- CONFIGURAÇÕES -->
+      <section class="section" id="sec-settings">
+        <div class="page-head"><div><span class="kicker">Loja</span><h1>Configurações</h1></div></div>
+        <div class="panel" style="padding:var(--sp-6)">
+          <form id="settings-form">
+            <div class="form-grid">
+              <label class="field"><span>Nome da loja</span><input class="input" name="storeName"></label>
+              <label class="field"><span>Slogan</span><input class="input" name="tagline"></label>
+              <label class="field"><span>WhatsApp (só números, com DDI)</span><input class="input" name="whatsapp" placeholder="5543999999999"></label>
+              <label class="field"><span>Instagram (URL)</span><input class="input" name="instagram"></label>
+              <label class="field"><span>E-mail</span><input class="input" name="email"></label>
+              <label class="field"><span>Telefone</span><input class="input" name="phone"></label>
+              <label class="field full"><span>Endereço</span><input class="input" name="address"></label>
+              <label class="field"><span>Frete grátis a partir de (R$)</span><input class="input" name="freeShippingFrom" type="number" min="0"></label>
+              <label class="field"><span>Rodapé (CNPJ / direitos)</span><input class="input" name="footerNote"></label>
+            </div>
+            <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar configurações</button></div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <datalist id="cat-list">
+    <option>Vestidos</option><option>Blusas</option><option>Blazers</option><option>Calças</option>
+    <option>Calçados</option><option>Bolsas</option><option>Acessórios</option><option>Conjuntos</option>
+  </datalist>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

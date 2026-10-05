@@ -1,0 +1,81 @@
+/* ============================================================
+   LA VELLUNE — TOKENS DE DESIGN
+   ============================================================
+   >>> ESTE É O ÚNICO ARQUIVO QUE O DESIGNER PRECISA EDITAR <<<
+
+   Troque os valores abaixo pelas cores e fontes da marca.
+   Todo o resto do site (vitrine e painel) lê daqui — não é
+   preciso caçar cor espalhada pelo CSS.
+   ============================================================ */
+
+:root {
+  /* ---- MARCA: cores principais (troque por aqui) ---- */
+  --brand-bg:        #0e0e10;   /* fundo geral (quase preto) */
+  --brand-surface:   #16161a;   /* cartões, cabeçalho */
+  --brand-surface-2: #1f1f26;   /* campos, hover */
+  --brand-text:      #f5f3ef;   /* texto principal (branco quente) */
+  --brand-muted:     #a7a39b;   /* texto secundário */
+  --brand-accent:    #c8a261;   /* destaque / dourado da marca */
+  --brand-accent-2:  #d9b877;   /* destaque claro (hover) */
+  --brand-on-accent: #141210;   /* texto sobre o dourado */
+  --brand-border:    rgba(255, 255, 255, 0.09);
+  --brand-danger:    #e5484d;
+  --brand-success:   #43b581;
+
+  /* ---- MARCA: fontes (troque pela tipografia da marca) ---- */
+  --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
+  --font-body:    "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ============================================================
+     A partir daqui raramente se mexe — escala do sistema.
+     ============================================================ */
+
+  /* Papéis semânticos (o site usa estes nomes) */
+  --bg: var(--brand-bg);
+  --surface: var(--brand-surface);
+  --surface-2: var(--brand-surface-2);
+  --text: var(--brand-text);
+  --muted: var(--brand-muted);
+  --accent: var(--brand-accent);
+  --accent-2: var(--brand-accent-2);
+  --on-accent: var(--brand-on-accent);
+  --border: var(--brand-border);
+  --danger: var(--brand-danger);
+  --success: var(--brand-success);
+
+  /* Tipografia */
+  --fs-hero: clamp(2.4rem, 6vw, 4.5rem);
+  --fs-h2:   clamp(1.6rem, 3.2vw, 2.4rem);
+  --fs-h3:   1.25rem;
+  --fs-body: 1rem;
+  --fs-sm:   0.85rem;
+  --fs-xs:   0.72rem;
+  --tracking: 0.02em;
+  --tracking-wide: 0.22em;
+
+  /* Espaçamento */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+
+  /* Raio, sombra, layout */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --container: 1240px;
+  --header-h: 72px;
+
+  /* Transições */
+  --t-fast: 140ms ease;
+  --t: 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Variante de tema claro, caso o designer prefira começar claro:
+   descomente e ajuste. O site inteiro já reage.
+:root {
+  --brand-bg: #f7f5f1; --brand-surface: #ffffff; --brand-surface-2: #efece6;
+  --brand-text: #1a1814; --brand-muted: #6b665d; --brand-border: rgba(0,0,0,.1);
+  --brand-on-accent: #fff;
+}
+*/
