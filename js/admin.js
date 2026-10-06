@@ -48,7 +48,9 @@
     $$(".nav-item").forEach(function (n) { n.classList.toggle("active", n.dataset.go === section); });
     if (section === "products") renderProducts();
     if (section === "settings") fillSettings();
-    if (section === "new") openForm(null);
+    // "new" NÃO chama openForm aqui — quem abre o formulário é o clique do
+    // menu (initApp) ou o botão Editar. Chamar openForm daqui criava uma
+    // recursão com o go() de dentro do openForm e estourava a pilha.
   }
 
   /* ---------- estatísticas ---------- */
@@ -111,7 +113,8 @@
   function openForm(id) {
     var p = id ? LV.getProduct(id) : null;
     currentImage = p ? (p.image || "") : "";
-    go("new"); // garante seção ativa
+    // Ativa a seção do formulário aqui mesmo (sem passar pelo go("new"),
+    // que chamaria openForm de volta).
     $$(".section").forEach(function (s) { s.classList.toggle("active", s.id === "sec-new"); });
     $$(".nav-item").forEach(function (n) { n.classList.toggle("active", n.dataset.go === "new"); });
     $("#form-title").textContent = p ? "Editar produto" : "Novo produto";
@@ -182,7 +185,14 @@
 
   /* ---------- init ---------- */
   function initApp() {
-    $$(".nav-item[data-go]").forEach(function (n) { n.onclick = function () { go(n.dataset.go); }; });
+    $$(".nav-item[data-go]").forEach(function (n) {
+      n.onclick = function () {
+        // "Novo produto" abre o formulário SEMPRE em branco (openForm(null));
+        // as demais abas só trocam de seção.
+        if (n.dataset.go === "new") openForm(null);
+        else go(n.dataset.go);
+      };
+    });
     $("#logout").onclick = logout;
     $("#reset-demo").onclick = function () {
       if (confirm("Restaurar os dados de exemplo? Isso apaga as alterações do demo.")) { LV.resetDemo(); toast("Demo restaurado"); renderProducts(); }
