@@ -242,7 +242,7 @@
       '<div class="modal-card" role="dialog" aria-modal="true" aria-label="' + esc(p.name) + '">' +
         '<button class="modal-close-btn" id="modal-close-trigger" aria-label="Fechar janela">&times;</button>' +
 
-        '<!-- Galeria Esquerda -->' +
+        '<!-- Galeria Esquerda Compacta -->' +
         '<div class="modal-gallery">' +
           '<div class="modal-main-img-wrap">' +
             (galleryBadge ? '<div class="modal-gallery-badge">' + galleryBadge + '</div>' : '') +
@@ -257,93 +257,81 @@
           : '') +
         '</div>' +
 
-        '<!-- Detalhes Direita (Estilo FB Elegance) -->' +
+        '<!-- Detalhes Direita Compactos (Zero Rolagem) -->' +
         '<div class="modal-info">' +
-          '<div class="modal-kicker">' + esc(p.brand || "La Vellune") + ' · ' + esc(p.category || "Atemporal") + '</div>' +
-          '<h2 class="modal-title">' + esc(p.name) + '</h2>' +
+          '<div class="modal-header-block">' +
+            '<span class="modal-kicker">' + esc(p.brand || "La Vellune") + ' · ' + esc(p.category || "Atemporal") + '</span>' +
+            '<h2 class="modal-title">' + esc(p.name) + '</h2>' +
+          '</div>' +
 
-          '<div class="modal-pricing-box">' +
+          '<div class="modal-pricing-compact">' +
             '<div class="modal-price-main">' +
               '<span class="price">' + LV.formatPrice(p.price) + '</span>' +
               (p.oldPrice && p.oldPrice > p.price ? '<span class="price-old">' + LV.formatPrice(p.oldPrice) + '</span>' : '') +
             '</div>' +
-            '<span class="modal-installment-text">' + installmentText + '</span>' +
-            '<span class="modal-pix-badge"><i class="fas fa-bolt"></i> ' + pixPrice + ' à vista no Pix (5% OFF)</span>' +
+            '<div class="modal-pricing-right">' +
+              '<span class="modal-installment-text">' + installmentText + '</span>' +
+              '<span class="modal-pix-badge"><i class="fas fa-bolt"></i> ' + pixPrice + ' no Pix (5% OFF)</span>' +
+            '</div>' +
           '</div>' +
 
           '<div class="modal-stock-status ' + (out ? "out-stock" : "in-stock") + '">' +
             '<span class="stock-dot"></span>' +
-            '<span>' + (out ? "Produto Esgotado" : (p.stock <= 2 ? "Últimas " + p.stock + " unidades disponíveis" : "Disponível para envio imediato")) + '</span>' +
+            '<span>' + (out ? "Peça Esgotada no Momento" : (p.stock <= 2 ? "Últimas " + p.stock + " unidades em estoque" : "Disponível para envio imediato")) + '</span>' +
           '</div>' +
 
-          '<div class="modal-desc">' + esc(p.desc || "Peça confeccionada sob rigorosos padrões de alfaiataria e acabamento atemporal La Vellune.") + '</div>' +
+          '<div class="modal-desc-compact">' + esc(p.desc || "Peça confeccionada sob rigorosos padrões de alfaiataria e acabamento atemporal La Vellune.") + '</div>' +
 
-          '<!-- Seletor de Tamanho -->' +
-          (p.sizes && p.sizes.length ?
-            '<div class="modal-selector-group">' +
-              '<div class="selector-label-row">' +
+          '<div class="modal-selectors-cluster">' +
+            (p.sizes && p.sizes.length ?
+              '<div class="modal-selector-group">' +
                 '<span class="selector-label">Tamanho:</span>' +
-                '<span class="selector-guide-link" id="m-guide-btn"><i class="fas fa-ruler"></i> Guia de medidas</span>' +
-              '</div>' +
-              '<div class="modal-options-row" id="m-sizes-wrap">' +
-                p.sizes.map(function (s, i) {
-                  return '<button type="button" class="modal-opt-btn ' + (i === 0 ? "active" : "") + '" data-val="' + esc(s) + '">' + esc(s) + '</button>';
-                }).join("") +
-              '</div>' +
-            '</div>'
-          : '') +
+                '<div class="modal-options-row" id="m-sizes-wrap">' +
+                  p.sizes.map(function (s, i) {
+                    return '<button type="button" class="modal-opt-btn ' + (i === 0 ? "active" : "") + '" data-val="' + esc(s) + '">' + esc(s) + '</button>';
+                  }).join("") +
+                '</div>' +
+              '</div>'
+            : '') +
 
-          '<!-- Seletor de Cor -->' +
-          (p.colors && p.colors.length ?
-            '<div class="modal-selector-group">' +
-              '<div class="selector-label-row">' +
-                '<span class="selector-label">Cor selecionada:</span>' +
-                '<strong style="font-size:12px;color:var(--text)" id="m-color-label">' + esc(p.colors[0]) + '</strong>' +
-              '</div>' +
-              '<div class="modal-options-row" id="m-colors-wrap">' +
-                p.colors.map(function (c, i) {
-                  return '<button type="button" class="modal-opt-btn ' + (i === 0 ? "active" : "") + '" data-val="' + esc(c) + '">' + esc(c) + '</button>';
-                }).join("") +
-              '</div>' +
-            '</div>'
-          : '') +
-
-          '<!-- Seletor de Quantidade -->' +
-          (!out ?
-            '<div class="modal-qty-row">' +
-              '<span class="selector-label">Quantidade:</span>' +
-              '<div class="modal-stepper">' +
-                '<button type="button" id="m-qty-dec">−</button>' +
-                '<span id="m-qty-val">1</span>' +
-                '<button type="button" id="m-qty-inc">+</button>' +
-              '</div>' +
-            '</div>'
-          : '') +
-
-          '<!-- Botões de Ação -->' +
-          '<div class="modal-actions-stack">' +
-            (out ?
-              '<button type="button" class="btn btn-outline btn-block" disabled style="opacity:0.6;cursor:not-allowed;">' +
-                '<i class="fas fa-ban"></i> PRODUTO ESGOTADO' +
-              '</button>'
-            :
-              '<button type="button" class="btn btn-primary btn-block btn-modal-add" id="m-btn-add">' +
-                '<i class="fas fa-shopping-bag"></i> Adicionar à Sacola' +
-              '</button>'
-            ) +
-            '<a href="#" target="_blank" rel="noopener" class="btn-modal-wpp" id="m-btn-wpp">' +
-              '<i class="fab fa-whatsapp"></i> ' + (out ? "Consultar Reposição via WhatsApp" : "Comprar via WhatsApp") +
-            '</a>' +
-            '<button type="button" class="btn-modal-share" id="m-btn-copy">' +
-              '<i class="fas fa-link"></i> Copiar link da peça' +
-            '</button>' +
+            (p.colors && p.colors.length ?
+              '<div class="modal-selector-group">' +
+                '<span class="selector-label">Cor: <strong id="m-color-label" style="font-weight:700;color:var(--text);text-transform:none;">' + esc(p.colors[0]) + '</strong></span>' +
+                '<div class="modal-options-row" id="m-colors-wrap">' +
+                  p.colors.map(function (c, i) {
+                    return '<button type="button" class="modal-opt-btn ' + (i === 0 ? "active" : "") + '" data-val="' + esc(c) + '">' + esc(c) + '</button>';
+                  }).join("") +
+                '</div>' +
+              '</div>'
+            : '') +
           '</div>' +
 
-          '<!-- Benefícios / Garantias -->' +
-          '<div class="modal-trust-list">' +
-            '<span><i class="fas fa-check-circle"></i> Peça 100% original e autenticada</span>' +
-            '<span><i class="fas fa-check-circle"></i> Envio com seguro e embalagem especial</span>' +
-            '<span><i class="fas fa-check-circle"></i> Atendimento personalizado em tempo real</span>' +
+          '<div class="modal-actions-cluster">' +
+            '<div class="modal-btn-row"' + (out ? ' style="grid-template-columns:1fr;"' : '') + '>' +
+              (out ?
+                '<button type="button" class="btn btn-outline btn-block" disabled style="opacity:0.6;cursor:not-allowed;">' +
+                  '<i class="fas fa-ban"></i> PRODUTO ESGOTADO' +
+                '</button>'
+              :
+                '<div class="modal-stepper">' +
+                  '<button type="button" id="m-qty-dec">−</button>' +
+                  '<span id="m-qty-val">1</span>' +
+                  '<button type="button" id="m-qty-inc">+</button>' +
+                '</div>' +
+                '<button type="button" class="btn-modal-add" id="m-btn-add">' +
+                  '<i class="fas fa-shopping-bag"></i> Adicionar à Sacola' +
+                '</button>'
+              ) +
+            '</div>' +
+            '<a href="#" target="_blank" rel="noopener" class="btn-modal-wpp" id="m-btn-wpp">' +
+              '<i class="fab fa-whatsapp"></i> ' + (out ? "Consultar Reposição via WhatsApp" : "Pedir pelo WhatsApp") +
+            '</a>' +
+            '<div class="modal-footer-compact">' +
+              '<span><i class="fas fa-shield-alt"></i> Peça Original · Envio Seguro</span>' +
+              '<button type="button" class="modal-share-link" id="m-btn-copy">' +
+                '<i class="fas fa-link"></i> Copiar link da peça' +
+              '</button>' +
+            '</div>' +
           '</div>' +
 
         '</div>' +
@@ -735,6 +723,160 @@
     });
   }
 
+  /* ============================================================
+     CARROSSEL 3D COVERFLOW DO INSTAGRAM
+     Imagem central em destaque, laterais com profundidade/dimmed
+     Troca automática a cada 3.5s, navegação por setas e dots
+     ============================================================ */
+  function initInstaCarousel() {
+    var stage = $("#insta-stage");
+    var prevBtn = $("#insta-prev");
+    var nextBtn = $("#insta-next");
+    var dotsContainer = $("#insta-dots");
+    if (!stage) return;
+
+    var slides = $$(".insta-slide", stage);
+    if (!slides.length) return;
+
+    var total = slides.length;
+    var current = 0;
+    var autoPlayTimer = null;
+    var isHovered = false;
+
+    // Renderiza dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = slides.map(function (_, i) {
+        return '<button type="button" class="carousel-dot' + (i === 0 ? " active" : "") + '" data-idx="' + i + '" aria-label="Slide ' + (i + 1) + '"></button>';
+      }).join("");
+
+      $$(".carousel-dot", dotsContainer).forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          goTo(parseInt(dot.dataset.idx, 10));
+        });
+      });
+    }
+
+    function updateView() {
+      slides.forEach(function (slide, idx) {
+        slide.classList.remove("slide-center", "slide-left", "slide-right", "slide-hidden");
+
+        var diff = (idx - current) % total;
+        if (diff < -Math.floor(total / 2)) diff += total;
+        if (diff > Math.floor(total / 2)) diff -= total;
+
+        if (diff === 0) {
+          slide.classList.add("slide-center");
+        } else if (diff === -1) {
+          slide.classList.add("slide-left");
+        } else if (diff === 1) {
+          slide.classList.add("slide-right");
+        } else {
+          slide.classList.add("slide-hidden");
+        }
+      });
+
+      if (dotsContainer) {
+        $$(".carousel-dot", dotsContainer).forEach(function (dot, i) {
+          if (i === current) dot.classList.add("active");
+          else dot.classList.remove("active");
+        });
+      }
+    }
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      updateView();
+      restartTimer();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    // Click nos slides laterais navega direto para eles
+    slides.forEach(function (slide, idx) {
+      slide.addEventListener("click", function (e) {
+        if (slide.classList.contains("slide-center") && e.target.closest("a")) return;
+        if (slide.classList.contains("slide-left")) {
+          e.preventDefault();
+          prev();
+        } else if (slide.classList.contains("slide-right")) {
+          e.preventDefault();
+          next();
+        }
+      });
+    });
+
+    if (prevBtn) prevBtn.addEventListener("click", prev);
+    if (nextBtn) nextBtn.addEventListener("click", next);
+
+    // Suporte a swipe em mobile
+    var touchStartX = 0;
+    stage.addEventListener("touchstart", function (e) {
+      if (e.touches && e.touches[0]) touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener("touchend", function (e) {
+      if (e.changedTouches && e.changedTouches[0]) {
+        var diffX = e.changedTouches[0].clientX - touchStartX;
+        if (diffX > 40) prev();
+        else if (diffX < -40) next();
+      }
+    }, { passive: true });
+
+    // Auto Play com pausa no hover
+    function startTimer() {
+      stopTimer();
+      autoPlayTimer = setInterval(function () {
+        if (!isHovered && document.visibilityState !== "hidden") {
+          next();
+        }
+      }, 3500);
+    }
+
+    function stopTimer() {
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+
+    function restartTimer() {
+      stopTimer();
+      startTimer();
+    }
+
+    stage.addEventListener("mouseenter", function () { isHovered = true; });
+    stage.addEventListener("mouseleave", function () { isHovered = false; });
+
+    updateView();
+    startTimer();
+  }
+
+  /* ============================================================
+     TRANSIÇÕES SUAVES ENTRE SESSÕES (SCROLL REVEAL)
+     Efeito dinâmico de entrada ao rolar (mobile e desktop)
+     ============================================================ */
+  function initScrollReveal() {
+    var targets = $$("[data-reveal]");
+    if (!targets.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach(function (el) { el.classList.add("is-revealed"); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: "0px 0px -40px 0px",
+      threshold: 0.08
+    });
+
+    targets.forEach(function (el) { observer.observe(el); });
+  }
+
   /* ---------- Inicialização ---------- */
   function init() {
     applySettings();
@@ -743,6 +885,8 @@
     render();
     renderCartCount();
     checkUrlForProduct();
+    initInstaCarousel();
+    initScrollReveal();
     window.addEventListener("lavellune:change", function () {
       applySettings();
       render();

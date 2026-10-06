@@ -1,7 +1,8 @@
 /* ============================================================
    LA VELLUNE — ESTILOS DA VITRINE (QUIET LUXURY & ALTA COSTURA)
    Inspirado no visual NT Eleganz (animações, marquee, cards nobres)
-   e no modal interativo de produto estilo FB Elegance.
+   com modal de produto estilo FB Elegance (100% em tela única)
+   e carrossel 3D CoverFlow do Instagram com profundidade.
    ============================================================ */
 
 /* ---- Top Marquee Ticker (NT Eleganz Style) ---- */
@@ -47,7 +48,7 @@
   top: 0;
   z-index: 50;
   height: var(--header-h);
-  background: rgba(250, 247, 240, 0.94);
+  background: rgba(250, 247, 240, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -201,54 +202,81 @@
   .header-search { display: none; }
 }
 
-/* ---- Hero Editorial (NT Eleganz Luxury Style) ---- */
-.hero {
+/* ---- Hero com Fundo de Banner Oficial da Loja ---- */
+.hero-with-banner {
   position: relative;
-  padding: 90px 0 80px;
+  padding: 100px 0 110px;
   text-align: center;
-  background:
-    radial-gradient(1100px 480px at 50% 0%, rgba(200, 162, 97, 0.18), transparent 70%),
-    linear-gradient(180deg, #faf7f0 0%, #f4efe4 100%);
-  border-bottom: 1px solid var(--border);
+  background-color: #112418;
   overflow: hidden;
+  color: #ffffff;
+}
+.hero-banner-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.72) saturate(1.1);
+  transform: scale(1.02);
+  transition: transform 12s ease-out;
+}
+.hero-with-banner:hover .hero-banner-bg {
+  transform: scale(1.06);
+}
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1100px 500px at 50% 30%, rgba(17, 36, 24, 0.4), rgba(10, 20, 14, 0.88)),
+    linear-gradient(180deg, rgba(17, 36, 24, 0.3) 0%, rgba(10, 20, 14, 0.85) 100%);
+  z-index: 1;
 }
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 840px;
+  max-width: 860px;
 }
 .hero-badge-wrap {
   margin-bottom: var(--sp-3);
 }
-.hero-badge {
+.hero-banner-indicator {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
-  background: rgba(200, 162, 97, 0.12);
-  border: 1px solid rgba(200, 162, 97, 0.35);
+  padding: 7px 18px;
+  background: rgba(17, 36, 24, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(200, 162, 97, 0.45);
   border-radius: var(--radius-pill);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-2);
+  color: #f7f4ec;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.hero-banner-indicator i {
+  color: var(--accent);
 }
 .hero-title {
   font-size: clamp(2.6rem, 5.8vw, 4.4rem);
   font-family: var(--font-display);
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: var(--text);
+  color: #ffffff;
   line-height: 1.1;
   margin-bottom: var(--sp-4);
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.5);
 }
 .hero-subtitle {
-  color: var(--muted);
+  color: #e2ddd2;
   font-size: clamp(1rem, 1.8vw, 1.18rem);
   line-height: 1.65;
   max-width: 620px;
   margin: 0 auto var(--sp-6);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 .hero-actions {
   display: flex;
@@ -262,9 +290,41 @@
   font-size: var(--fs-sm);
   letter-spacing: 0.06em;
 }
-.hero-actions .btn-outline {
-  border-color: rgba(17, 36, 24, 0.2);
-  background: var(--surface);
+.hero-btn-wpp {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px);
+}
+.hero-btn-wpp:hover {
+  background: #15803d !important;
+  border-color: #15803d !important;
+}
+
+/* ---- Transição Suave entre Sessões (Banner -> Vitrine) ---- */
+.section-transition-stage {
+  position: relative;
+  margin-top: -32px;
+  z-index: 10;
+}
+.transition-curve {
+  height: 36px;
+  background: var(--bg);
+  border-radius: 28px 28px 0 0;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -8px 24px rgba(17, 36, 24, 0.06);
+}
+
+/* ---- Animações de Entrada ao Rolar (Scroll Reveal) ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---- Barra de Benefícios de Luxo (Trust Bar) ---- */
@@ -318,9 +378,13 @@
   line-height: 1.35;
 }
 
-/* ---- Catálogo & Grid ---- */
+/* ---- Catálogo & Grid Ampliado (Filtros Totalmente à Esquerda) ---- */
 .catalog {
-  padding: 56px 0 80px;
+  padding: 50px 0 80px;
+}
+.catalog-full-container {
+  max-width: 1440px;
+  padding-inline: clamp(20px, 3.5vw, 48px);
 }
 .catalog-head {
   display: flex;
@@ -328,7 +392,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--sp-4);
-  margin-bottom: var(--sp-6);
+  margin-bottom: var(--sp-5);
   padding-bottom: var(--sp-4);
   border-bottom: 1px solid var(--border);
 }
@@ -350,28 +414,29 @@
 }
 .catalog-grid-wrap {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: var(--sp-6);
+  grid-template-columns: 240px 1fr;
+  gap: 36px;
   align-items: start;
 }
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .catalog-grid-wrap { grid-template-columns: 1fr; }
 }
 
-/* ---- Filtros (Sidebar) ---- */
+/* ---- Filtros (Sidebar Totalmente à Esquerda) ---- */
 .filters {
   position: sticky;
   top: calc(var(--header-h) + 20px);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
   box-shadow: var(--shadow-sm);
+  width: 100%;
 }
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .filters { position: static; }
 }
 .filter-title {
@@ -380,7 +445,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -391,10 +456,10 @@
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 .chip {
-  padding: 7px 14px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   font-size: 12px;
@@ -441,7 +506,7 @@
   width: 100%;
 }
 
-/* ---- Toolbar & Product Cards Grid ---- */
+/* ---- Toolbar & Cards Grid ---- */
 .toolbar {
   display: flex;
   align-items: center;
@@ -470,7 +535,7 @@
   gap: 26px;
 }
 
-/* ---- Card de Produto (Estilo NT Eleganz) ---- */
+/* ---- Card de Produto (NT Eleganz Style) ---- */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -503,7 +568,6 @@
   transform: scale(1.06);
 }
 
-/* Estado Esgotado */
 .card.is-out-of-stock .card-media img {
   filter: grayscale(100%);
   opacity: 0.6;
@@ -530,7 +594,6 @@
   color: #ffffff !important;
 }
 
-/* Botão flutuante Ver Detalhes no Card */
 .card-hover-overlay {
   position: absolute;
   bottom: 0;
@@ -572,10 +635,10 @@
 }
 
 .card-body {
-  padding: 18px 20px 20px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   flex: 1;
 }
 .card-brand {
@@ -594,7 +657,7 @@
 }
 .card-foot {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -616,21 +679,22 @@
 }
 
 /* ============================================================
-   MODAL DE PRODUTO INTERATIVO (ESTILO FB ELEGANCE)
-   Abre sobreposto na mesma página sem navegar.
+   MODAL DE PRODUTO COMPACTO (100% EM TELA ÚNICA - SEM ROLAGEM)
+   Design refinado estilo FB Elegance onde todas as opções
+   cabem perfeitamente no viewport sem scrollbar interna.
    ============================================================ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(17, 36, 24, 0.68);
+  background: rgba(17, 36, 24, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  padding: 16px;
+  animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes modalFadeIn {
   from { opacity: 0; }
@@ -641,45 +705,48 @@
   background: var(--surface);
   border: 1px solid rgba(17, 36, 24, 0.12);
   border-radius: 16px;
-  max-width: 960px;
+  max-width: 860px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 28px 80px rgba(17, 36, 24, 0.28);
+  max-height: min(600px, 86vh);
+  height: min(600px, 86vh);
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(17, 36, 24, 0.3);
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: 1fr 1.05fr;
   position: relative;
-  animation: modalPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: modalPopIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes modalPopIn {
-  from { transform: scale(0.96) translateY(12px); opacity: 0; }
+  from { transform: scale(0.96) translateY(10px); opacity: 0; }
   to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 @media (max-width: 768px) {
   .modal-card {
     grid-template-columns: 1fr;
-    max-height: 94vh;
+    max-height: 92vh;
+    height: auto;
+    overflow-y: auto;
   }
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 10;
-  width: 40px;
-  height: 40px;
+  top: 14px;
+  right: 14px;
+  z-index: 15;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: var(--surface);
   border: 1px solid var(--border);
   display: grid;
   place-items: center;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text);
   cursor: pointer;
   transition: all var(--t);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 .modal-close-btn:hover {
   background: var(--text);
@@ -687,17 +754,21 @@
   transform: rotate(90deg);
 }
 
-/* Galeria do Modal */
+/* Galeria Esquerda Compacta */
 .modal-gallery {
   display: flex;
   flex-direction: column;
   background: #f2efe8;
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 .modal-main-img-wrap {
   position: relative;
-  aspect-ratio: 4 / 5;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
+  background: #f2efe8;
 }
 .modal-main-img {
   width: 100%;
@@ -707,52 +778,66 @@
 }
 .modal-gallery-badge {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 12px;
+  left: 12px;
   z-index: 5;
 }
 .modal-thumbs-row {
   display: flex;
-  gap: 10px;
-  padding: 12px 16px;
+  gap: 8px;
+  padding: 8px 12px;
   background: var(--surface);
   border-top: 1px solid var(--border);
   overflow-x: auto;
+  flex-shrink: 0;
+  height: 58px;
 }
 .modal-thumb {
-  width: 62px;
-  height: 74px;
+  width: 44px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 5px;
   border: 2px solid transparent;
   cursor: pointer;
   opacity: 0.65;
   transition: all var(--t);
   flex-shrink: 0;
 }
-.modal-thumb:hover {
-  opacity: 1;
-}
+.modal-thumb:hover { opacity: 1; }
 .modal-thumb.active {
   border-color: var(--accent);
   opacity: 1;
-  box-shadow: 0 2px 8px rgba(200, 162, 97, 0.3);
+  box-shadow: 0 2px 6px rgba(200, 162, 97, 0.3);
 }
 
-/* Detalhes do Produto no Modal */
+/* Detalhes Direita Compactos (Zero Rolagem) */
 .modal-info {
-  padding: 34px 36px;
+  padding: 22px 26px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  overflow-y: auto;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  gap: 8px;
 }
-@media (max-width: 520px) {
-  .modal-info { padding: 24px; }
+@media (max-width: 768px) {
+  .modal-info {
+    padding: 20px;
+    height: auto;
+    overflow: visible;
+    gap: 12px;
+  }
 }
 
+.modal-header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-right: 32px;
+}
 .modal-kicker {
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent-2);
@@ -760,120 +845,130 @@
 }
 .modal-title {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  font-size: 1.35rem;
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text);
+  margin: 0;
 }
-.modal-pricing-box {
-  padding: 14px 18px;
-  background: var(--surface-2);
-  border-radius: var(--radius-sm);
+
+.modal-pricing-compact {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-2);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .modal-price-main {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 6px;
 }
 .modal-price-main .price {
-  font-size: 1.7rem;
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--text);
 }
+.modal-pricing-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
 .modal-installment-text {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   font-weight: 500;
 }
 .modal-pix-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  font-size: 11px;
   color: #15803d;
   font-weight: 700;
 }
 
-/* Status do Estoque */
 .modal-stock-status {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 11px;
   font-weight: 600;
 }
 .modal-stock-status.in-stock { color: #15803d; }
 .modal-stock-status.out-stock { color: #dc2626; }
 .stock-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
 }
 
-.modal-desc {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: #434d42;
+.modal-desc-compact {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #4b544a;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Seletores de Tamanho e Cor */
-.modal-selector-group {
+/* Seletores Compactos */
+.modal-selectors-cluster {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
-.selector-label-row {
+.modal-selector-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .selector-label {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted);
-}
-.selector-guide-link {
-  font-size: 11px;
-  color: var(--accent-2);
-  text-decoration: underline;
-  cursor: pointer;
+  min-width: 58px;
 }
 .modal-options-row {
   display: flex;
+  gap: 6px;
   flex-wrap: wrap;
-  gap: 8px;
 }
 .modal-opt-btn {
-  padding: 8px 16px;
+  padding: 5px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text);
   cursor: pointer;
   transition: all var(--t);
 }
-.modal-opt-btn:hover {
-  border-color: var(--accent);
-}
+.modal-opt-btn:hover { border-color: var(--accent); }
 .modal-opt-btn.active {
   background: var(--text);
   color: #ffffff;
   border-color: var(--text);
-  box-shadow: 0 2px 8px rgba(17, 36, 24, 0.15);
 }
 
-/* Stepper de Quantidade */
-.modal-qty-row {
+/* Linha de Quantidade e Compra */
+.modal-actions-cluster {
   display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.modal-btn-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
   align-items: center;
-  gap: 14px;
 }
 .modal-stepper {
   display: inline-flex;
@@ -884,158 +979,247 @@
   overflow: hidden;
 }
 .modal-stepper button {
-  width: 36px;
+  width: 32px;
   height: 36px;
   display: grid;
   place-items: center;
   color: var(--text);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--t);
+  background: none;
+  border: none;
 }
-.modal-stepper button:hover {
-  background: var(--surface-2);
-}
+.modal-stepper button:hover { background: var(--surface-2); }
 .modal-stepper span {
-  min-width: 36px;
+  min-width: 28px;
   text-align: center;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-/* Ações do Modal */
-.modal-actions-stack {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 .btn-modal-add {
-  padding: 15px 24px;
-  font-size: 14px;
-  letter-spacing: 0.06em;
+  padding: 10px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   background: var(--accent);
   color: #ffffff;
   border-radius: var(--radius-sm);
-  box-shadow: 0 4px 16px rgba(200, 162, 97, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background var(--t);
 }
-.btn-modal-add:hover {
-  background: var(--accent-2);
-}
+.btn-modal-add:hover { background: var(--accent-2); }
+
 .btn-modal-wpp {
-  padding: 13px 24px;
-  font-size: 13px;
+  padding: 10px 18px;
+  font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: 0.04em;
   background: #15803d;
   color: #ffffff;
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 7px;
   text-decoration: none;
-  transition: all var(--t);
+  transition: background var(--t);
 }
-.btn-modal-wpp:hover {
-  background: #166534;
-}
-.btn-modal-share {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 18px;
-  font-size: 12px;
+.btn-modal-wpp:hover { background: #166534; }
+
+.modal-footer-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 7px;
+  font-size: 10.5px;
   color: var(--muted);
-  font-weight: 600;
+}
+.modal-share-link {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all var(--t);
+  gap: 4px;
+  font-size: 10.5px;
+  padding: 0;
 }
-.btn-modal-share:hover {
-  color: var(--text);
-  border-color: var(--muted);
-}
+.modal-share-link:hover { color: var(--text); text-decoration: underline; }
 
-.modal-trust-list {
-  margin-top: 8px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--muted);
-}
-.modal-trust-list span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.modal-trust-list i {
-  color: var(--accent);
-}
-
-/* ---- Seção Instagram Feed ---- */
+/* ============================================================
+   CARROSSEL 3D COVERFLOW DO INSTAGRAM
+   Centro em destaque, imagens laterais com profundidade suave
+   ============================================================ */
 .instagram-section {
-  padding: 70px 0;
+  padding: 65px 0 75px;
   background: var(--surface);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  overflow: hidden;
 }
 .insta-header {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto 36px;
+  margin: 0 auto 32px;
 }
 .insta-header h2 {
   font-size: var(--fs-h2);
   margin: 8px 0 10px;
 }
-.insta-btn {
-  margin-top: 16px;
-}
-.insta-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-@media (max-width: 768px) {
-  .insta-grid { grid-template-columns: repeat(2, 1fr); }
-}
-.insta-card {
+.insta-btn { margin-top: 14px; }
+
+.insta-carousel-container {
   position: relative;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  display: block;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.insta-card img {
+.insta-carousel-stage {
+  position: relative;
+  height: 370px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1100px;
+}
+
+.insta-slide {
+  position: absolute;
+  width: 290px;
+  height: 350px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s var(--t), filter 0.6s var(--t);
+  background: #112418;
+  box-shadow: 0 10px 30px rgba(17, 36, 24, 0.12);
+  user-select: none;
+}
+.insta-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--t);
+  display: block;
+  pointer-events: none;
 }
-.insta-overlay {
+.insta-slide-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(17, 36, 24, 0.45);
-  display: grid;
-  place-items: center;
+  background: rgba(17, 36, 24, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   color: #ffffff;
-  font-size: 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   opacity: 0;
   transition: opacity var(--t);
+  text-decoration: none;
 }
-.insta-card:hover img {
-  transform: scale(1.08);
-}
-.insta-card:hover .insta-overlay {
+.insta-slide-overlay i { font-size: 26px; color: var(--accent); }
+.insta-slide:hover .insta-slide-overlay { opacity: 1; }
+
+/* Posicionamento 3D CoverFlow */
+.insta-slide.slide-center {
+  transform: translateX(0) scale(1);
+  z-index: 5;
   opacity: 1;
+  filter: none;
+  box-shadow: 0 24px 60px rgba(17, 36, 24, 0.28);
+  pointer-events: auto;
+}
+.insta-slide.slide-left {
+  transform: translateX(-195px) scale(0.82);
+  z-index: 2;
+  opacity: 0.45;
+  filter: brightness(0.7) blur(0.6px);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.insta-slide.slide-right {
+  transform: translateX(195px) scale(0.82);
+  z-index: 2;
+  opacity: 0.45;
+  filter: brightness(0.7) blur(0.6px);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.insta-slide.slide-hidden {
+  transform: translateX(0) scale(0.6);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 680px) {
+  .insta-slide {
+    width: 240px;
+    height: 300px;
+  }
+  .insta-slide.slide-left { transform: translateX(-110px) scale(0.82); }
+  .insta-slide.slide-right { transform: translateX(110px) scale(0.82); }
+  .insta-carousel-stage { height: 320px; }
+}
+
+/* Setas de Navegação do Carrossel */
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--t);
+  box-shadow: 0 4px 14px rgba(17, 36, 24, 0.12);
+}
+.carousel-nav-btn:hover {
+  background: var(--text);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+.carousel-nav-btn.prev { left: 10px; }
+.carousel-nav-btn.next { right: 10px; }
+
+.carousel-dots-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  transition: all var(--t);
+  padding: 0;
+}
+.carousel-dot.active {
+  background: var(--accent);
+  width: 22px;
+  border-radius: var(--radius-pill);
 }
 
 /* ---- Rodapé ---- */
@@ -1066,9 +1250,7 @@
   text-transform: uppercase;
   margin-bottom: 12px;
 }
-.footer-logo b {
-  color: var(--accent);
-}
+.footer-logo b { color: var(--accent); }
 .footer-logo-img {
   height: 38px;
   width: auto;
@@ -1106,9 +1288,7 @@
   transition: color var(--t);
   text-decoration: none;
 }
-.site-footer a:hover {
-  color: var(--accent-2);
-}
+.site-footer a:hover { color: var(--accent-2); }
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 22px 0;

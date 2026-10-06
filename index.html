@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/tokens.css?v=20261006d">
-  <link rel="stylesheet" href="css/base.css?v=20261006d">
-  <link rel="stylesheet" href="css/store.css?v=20261006d">
+  <link rel="stylesheet" href="css/tokens.css?v=20261006e">
+  <link rel="stylesheet" href="css/base.css?v=20261006e">
+  <link rel="stylesheet" href="css/store.css?v=20261006e">
 </head>
 <body>
 
@@ -83,23 +83,27 @@
     </div>
   </header>
 
-  <!-- Hero Editorial (NT Eleganz Luxury Style) -->
-  <section class="hero">
+  <!-- Hero Editorial com Fundo Indicativo de Banner da Loja -->
+  <section class="hero hero-with-banner">
+    <div class="hero-banner-bg" style="background-image: url('assets/images/hero-banner.jpg');"></div>
     <div class="hero-bg-overlay"></div>
     <div class="container hero-content">
       <div class="hero-badge-wrap">
-        <span class="hero-badge">ARACAJU · BRASIL · COLEÇÃO ATEMPORAL</span>
+        <span class="hero-banner-indicator">
+          <i class="fas fa-camera-retro"></i>
+          <span>Banner Principal da Loja · Campanha Oficial</span>
+        </span>
       </div>
       <h1 class="hero-title">Elegance in Every Detail</h1>
       <p class="hero-subtitle">
-        Peças selecionadas, tecidos nobres e caimento impecável. A sofisticação do luxo clássico reimaginada para o seu cotidiano.
+        Peças selecionadas, tecidos nobres e caimento impecável. A experiência do luxo clássico reimaginada para o seu cotidiano.
       </p>
       <div class="hero-actions">
         <button class="btn btn-primary" id="hero-cta">
           <span>Explorar Coleção</span>
           <i class="fas fa-arrow-down"></i>
         </button>
-        <a id="hero-wpp-cta" href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20a%20nova%20cole%C3%A7%C3%A3o%20da%20La%20Vellune." target="_blank" rel="noopener" class="btn btn-outline">
+        <a id="hero-wpp-cta" href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20a%20nova%20cole%C3%A7%C3%A3o%20da%20La%20Vellune." target="_blank" rel="noopener" class="btn btn-outline hero-btn-wpp">
           <i class="fab fa-whatsapp"></i>
           <span>Consultoria VIP</span>
         </a>
@@ -107,8 +111,13 @@
     </div>
   </section>
 
+  <!-- Efeito de Transição Suave entre Sessões (Banner -> Vitrine) -->
+  <div class="section-transition-stage" aria-hidden="true">
+    <div class="transition-curve"></div>
+  </div>
+
   <!-- Luxury Trust Pillars Bar -->
-  <section class="trust-bar">
+  <section class="trust-bar" data-reveal>
     <div class="container trust-grid">
       <div class="trust-item">
         <div class="trust-icon"><i class="fas fa-gem"></i></div>
@@ -143,8 +152,8 @@
 
   <!-- Catalog Section -->
   <main class="catalog" id="catalogo">
-    <div class="container">
-      <div class="catalog-head">
+    <div class="container catalog-full-container">
+      <div class="catalog-head" data-reveal>
         <div>
           <span class="kicker">Curadoria Selecionada</span>
           <h2 class="catalog-title">Peças em Destaque</h2>
@@ -161,8 +170,8 @@
       </div>
 
       <div class="catalog-grid-wrap">
-        <!-- Sidebar Filters -->
-        <aside class="filters">
+        <!-- Sidebar Filters (Alinhados totalmente à esquerda) -->
+        <aside class="filters" data-reveal>
           <div class="filter-group">
             <h4 class="filter-title"><i class="fas fa-layer-group"></i> Categorias</h4>
             <div class="chip-row" id="f-categories"></div>
@@ -193,10 +202,10 @@
         </aside>
 
         <!-- Product Cards Grid -->
-        <section class="products-section">
+        <section class="products-section" data-reveal>
           <div class="toolbar">
             <span class="count" id="result-count">Carregando catálogo…</span>
-            <span class="click-hint"><i class="fas fa-hand-pointer"></i> Clique em qualquer peça para ver detalhes</span>
+            <span class="click-hint"><i class="fas fa-hand-pointer"></i> Clique na peça para ver detalhes em tela única</span>
           </div>
           <div class="product-grid" id="grid"></div>
         </section>
@@ -204,36 +213,70 @@
     </div>
   </main>
 
-  <!-- Instagram Story Banner Section -->
-  <section class="instagram-section">
+  <!-- Carrossel 3D CoverFlow do Instagram (Centro com Destaque e Laterais com Profundidade) -->
+  <section class="instagram-section" data-reveal>
     <div class="container">
       <div class="insta-header">
-        <span class="kicker">Siga a La Vellune</span>
+        <span class="kicker">Conecte-se com a marca</span>
         <h2>@la.vellune no Instagram</h2>
-        <p class="muted">Acompanhe nossas novidades, lançamentos e bastidores diretamente em nosso perfil.</p>
+        <p class="muted">Acompanhe nossos lançamentos, tecidos nobres e novidades exclusivas da loja.</p>
         <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="btn btn-outline insta-btn">
           <i class="fab fa-instagram"></i>
-          <span>Ver no Instagram</span>
+          <span>Seguir @la.vellune</span>
         </a>
       </div>
-      <div class="insta-grid">
-        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
-          <img src="assets/images/instagram/post2.jpg" alt="La Vellune Coleção de Polos" loading="lazy">
-          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-        </a>
-        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
-          <img src="assets/images/instagram/post3.jpg" alt="La Vellune Polo Custom Navy" loading="lazy">
-          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-        </a>
-        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
-          <img src="assets/images/instagram/post1.jpg" alt="La Vellune Texturas Nobres" loading="lazy">
-          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-        </a>
-        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
-          <img src="assets/images/products/camisa-linho.jpeg" alt="La Vellune Linho Puro" loading="lazy">
-          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
-        </a>
+
+      <!-- Carrossel 3D CoverFlow -->
+      <div class="insta-carousel-container">
+        <button class="carousel-nav-btn prev" id="insta-prev" aria-label="Imagem anterior">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="insta-carousel-stage" id="insta-stage">
+          <div class="insta-slide" data-idx="0">
+            <img src="assets/images/instagram/post2.jpg" alt="Coleção de Polos Atemporais">
+            <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-slide-overlay">
+              <i class="fab fa-instagram"></i>
+              <span>Ver no Instagram</span>
+            </a>
+          </div>
+          <div class="insta-slide" data-idx="1">
+            <img src="assets/images/instagram/post3.jpg" alt="Polo Ralph Lauren Navy">
+            <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-slide-overlay">
+              <i class="fab fa-instagram"></i>
+              <span>Ver no Instagram</span>
+            </a>
+          </div>
+          <div class="insta-slide" data-idx="2">
+            <img src="assets/images/instagram/post1.jpg" alt="Textura em Algodão Piquet Nobre">
+            <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-slide-overlay">
+              <i class="fab fa-instagram"></i>
+              <span>Ver no Instagram</span>
+            </a>
+          </div>
+          <div class="insta-slide" data-idx="3">
+            <img src="assets/images/products/camisa-linho.jpeg" alt="Camisa em Linho Puro Italiano">
+            <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-slide-overlay">
+              <i class="fab fa-instagram"></i>
+              <span>Ver no Instagram</span>
+            </a>
+          </div>
+          <div class="insta-slide" data-idx="4">
+            <img src="assets/images/products/quarter-zip.jpeg" alt="Quarter-Zip Pullover Atemporal">
+            <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-slide-overlay">
+              <i class="fab fa-instagram"></i>
+              <span>Ver no Instagram</span>
+            </a>
+          </div>
+        </div>
+
+        <button class="carousel-nav-btn next" id="insta-next" aria-label="Próxima imagem">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
+
+      <!-- Indicadores / Dots -->
+      <div class="carousel-dots-row" id="insta-dots"></div>
     </div>
   </section>
 
@@ -280,7 +323,7 @@
   </a>
 
   <!-- Scripts -->
-  <script src="js/data.js?v=20261006d"></script>
-  <script src="js/store.js?v=20261006d"></script>
+  <script src="js/data.js?v=20261006e"></script>
+  <script src="js/store.js?v=20261006e"></script>
 </body>
 </html>
