@@ -3,57 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>La Vellune</title>
-  <meta name="description" content="La Vellune — moda autoral. Vestidos, alfaiataria, calçados e acessórios.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0e10'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23c8a261' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <title>La Vellune — Elegance in every detail | Moda Atemporal</title>
+  <meta name="description" content="La Vellune — Elegance in every detail. Moda atemporal, cortes nobres, polos exclusivas e alfaiataria autoral em Aracaju, Brasil.">
+  <link rel="icon" href="assets/images/logo-trans.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css?v=20261006c">
-  <link rel="stylesheet" href="css/base.css?v=20261006c">
-  <link rel="stylesheet" href="css/store.css?v=20261006c">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/tokens.css?v=20261006d">
+  <link rel="stylesheet" href="css/base.css?v=20261006d">
+  <link rel="stylesheet" href="css/store.css?v=20261006d">
 </head>
 <body>
 
-  <div class="shipping-bar" data-shipping>Frete grátis acima de R$ 499</div>
+  <!-- Top Marquee Ticker (NT Eleganz Style) -->
+  <div class="top-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="m-item">ELEGÂNCIA EM CADA DETALHE</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">MODA ATEMPORAL</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">ARACAJU — BRASIL</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">FRETE GRÁTIS EM COMPRAS SELECIONADAS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">PARCELAMENTO EM ATÉ 6X SEM JUROS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">PEÇAS 100% ORIGINAIS E SELECIONADAS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">ATENDIMENTO EXCLUSIVO VIA WHATSAPP</span>
+      <span class="m-dot">✦</span>
+      <!-- Duplicate track for infinite loop -->
+      <span class="m-item">ELEGÂNCIA EM CADA DETALHE</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">MODA ATEMPORAL</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">ARACAJU — BRASIL</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">FRETE GRÁTIS EM COMPRAS SELECIONADAS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">PARCELAMENTO EM ATÉ 6X SEM JUROS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">PEÇAS 100% ORIGINAIS E SELECIONADAS</span>
+      <span class="m-dot">✦</span>
+      <span class="m-item">ATENDIMENTO EXCLUSIVO VIA WHATSAPP</span>
+      <span class="m-dot">✦</span>
+    </div>
+  </div>
 
+  <!-- Header Sticky (NT Eleganz Style) -->
   <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo" data-store-name>La <b>Vellune</b></a>
+    <div class="container header-container">
+      <a href="index.html" class="brand-logo" aria-label="La Vellune Início">
+        <img src="assets/images/logo-trans.png" alt="La Vellune" class="brand-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span class="brand-logo-fallback" style="display:none">La <b>Vellune</b></span>
+      </a>
+
       <div class="header-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
-        <input id="search" type="search" placeholder="Buscar peças, categorias…" aria-label="Buscar">
+        <i class="fas fa-search search-icon"></i>
+        <input id="search" type="search" placeholder="Buscar polos, camisas, tecidos…" aria-label="Buscar produtos">
+        <button id="search-clear" class="search-clear-btn" aria-label="Limpar busca" style="display:none">&times;</button>
       </div>
+
       <div class="header-actions">
-        <a href="admin/index.html" class="btn-ghost btn-sm" title="Painel administrativo">Painel</a>
-        <button class="cart-btn" id="cart-open" aria-label="Abrir sacola">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-          <span>Sacola</span>
+        <a id="header-wpp-btn" href="https://wa.me/5579996179533" target="_blank" rel="noopener" class="header-action-link wpp-link" title="Atendimento WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+          <span class="action-label">Atendimento VIP</span>
+        </a>
+        <a href="admin/index.html" class="header-action-link admin-link" title="Painel Administrativo">
+          <i class="far fa-user"></i>
+          <span class="action-label">Painel</span>
+        </a>
+        <button class="cart-btn" id="cart-open" aria-label="Abrir sacola de compras">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="action-label">Sacola</span>
           <span class="cart-count" id="cart-count" style="display:none">0</span>
         </button>
       </div>
     </div>
   </header>
 
+  <!-- Hero Editorial (NT Eleganz Luxury Style) -->
   <section class="hero">
-    <div class="container">
-      <span class="kicker">Coleção Atemporal</span>
-      <h1 data-tagline>Moda autoral feita para durar</h1>
-      <p>Peças selecionadas, tecidos nobres e caimento impecável. Descubra a nova coleção La Vellune.</p>
-      <button class="btn btn-primary" id="hero-cta">Ver coleção</button>
-      <a href="#catalogo" class="btn btn-outline">Novidades</a>
+    <div class="hero-bg-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-badge-wrap">
+        <span class="hero-badge">ARACAJU · BRASIL · COLEÇÃO ATEMPORAL</span>
+      </div>
+      <h1 class="hero-title">Elegance in Every Detail</h1>
+      <p class="hero-subtitle">
+        Peças selecionadas, tecidos nobres e caimento impecável. A sofisticação do luxo clássico reimaginada para o seu cotidiano.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="hero-cta">
+          <span>Explorar Coleção</span>
+          <i class="fas fa-arrow-down"></i>
+        </button>
+        <a id="hero-wpp-cta" href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20a%20nova%20cole%C3%A7%C3%A3o%20da%20La%20Vellune." target="_blank" rel="noopener" class="btn btn-outline">
+          <i class="fab fa-whatsapp"></i>
+          <span>Consultoria VIP</span>
+        </a>
+      </div>
     </div>
   </section>
 
+  <!-- Luxury Trust Pillars Bar -->
+  <section class="trust-bar">
+    <div class="container trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-gem"></i></div>
+        <div class="trust-text">
+          <strong>Peças 100% Originais</strong>
+          <span>Autenticidade e procedência comprovadas</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-shipping-fast"></i></div>
+        <div class="trust-text">
+          <strong>Envio Seguro para o Brasil</strong>
+          <span>Embalagem nobre e rastreio detalhado</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><i class="fab fa-whatsapp"></i></div>
+        <div class="trust-text">
+          <strong>Atendimento Exclusivo</strong>
+          <span>Consultoria e suporte via WhatsApp</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="trust-text">
+          <strong>Troca sem Burocracia</strong>
+          <span>30 dias para troca com total conforto</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Section -->
   <main class="catalog" id="catalogo">
     <div class="container">
       <div class="catalog-head">
         <div>
-          <span class="kicker">Catálogo</span>
-          <h2>Nossas peças</h2>
+          <span class="kicker">Curadoria Selecionada</span>
+          <h2 class="catalog-title">Peças em Destaque</h2>
         </div>
-        <div class="field" style="min-width:200px">
-          <select class="select" id="sort" aria-label="Ordenar">
+        <div class="catalog-sort-wrap">
+          <label for="sort" class="sort-label">Ordenar por:</label>
+          <select class="select" id="sort" aria-label="Ordenar produtos">
             <option value="new">Mais recentes</option>
             <option value="price-asc">Menor preço</option>
             <option value="price-desc">Maior preço</option>
@@ -63,30 +161,42 @@
       </div>
 
       <div class="catalog-grid-wrap">
+        <!-- Sidebar Filters -->
         <aside class="filters">
           <div class="filter-group">
-            <h4>Categorias</h4>
+            <h4 class="filter-title"><i class="fas fa-layer-group"></i> Categorias</h4>
             <div class="chip-row" id="f-categories"></div>
           </div>
+
           <div class="filter-group">
-            <h4>Tamanho</h4>
+            <h4 class="filter-title"><i class="fas fa-ruler-horizontal"></i> Tamanhos</h4>
             <div class="chip-row" id="f-sizes"></div>
           </div>
+
           <div class="filter-group">
-            <h4>Faixa de preço</h4>
+            <h4 class="filter-title"><i class="fas fa-tag"></i> Faixa de Preço</h4>
             <div class="price-row">
-              <input class="input" id="f-pmin" type="number" min="0" placeholder="Mín" aria-label="Preço mínimo">
+              <input class="input" id="f-pmin" type="number" min="0" placeholder="R$ Mín" aria-label="Preço mínimo">
               <span class="muted">—</span>
-              <input class="input" id="f-pmax" type="number" min="0" placeholder="Máx" aria-label="Preço máximo">
+              <input class="input" id="f-pmax" type="number" min="0" placeholder="R$ Máx" aria-label="Preço máximo">
             </div>
           </div>
-          <label class="filter-check"><input type="checkbox" id="f-instock"> Somente em estoque</label>
-          <button class="btn btn-outline btn-sm" id="f-clear">Limpar filtros</button>
+
+          <label class="filter-check">
+            <input type="checkbox" id="f-instock">
+            <span>Somente disponíveis (em estoque)</span>
+          </label>
+
+          <button class="btn btn-outline btn-sm btn-clear" id="f-clear">
+            <i class="fas fa-times"></i> Limpar filtros
+          </button>
         </aside>
 
-        <section>
+        <!-- Product Cards Grid -->
+        <section class="products-section">
           <div class="toolbar">
-            <span class="count" id="result-count"></span>
+            <span class="count" id="result-count">Carregando catálogo…</span>
+            <span class="click-hint"><i class="fas fa-hand-pointer"></i> Clique em qualquer peça para ver detalhes</span>
           </div>
           <div class="product-grid" id="grid"></div>
         </section>
@@ -94,36 +204,83 @@
     </div>
   </main>
 
+  <!-- Instagram Story Banner Section -->
+  <section class="instagram-section">
+    <div class="container">
+      <div class="insta-header">
+        <span class="kicker">Siga a La Vellune</span>
+        <h2>@la.vellune no Instagram</h2>
+        <p class="muted">Acompanhe nossas novidades, lançamentos e bastidores diretamente em nosso perfil.</p>
+        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="btn btn-outline insta-btn">
+          <i class="fab fa-instagram"></i>
+          <span>Ver no Instagram</span>
+        </a>
+      </div>
+      <div class="insta-grid">
+        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
+          <img src="assets/images/instagram/post2.jpg" alt="La Vellune Coleção de Polos" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+        </a>
+        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
+          <img src="assets/images/instagram/post3.jpg" alt="La Vellune Polo Custom Navy" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+        </a>
+        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
+          <img src="assets/images/instagram/post1.jpg" alt="La Vellune Texturas Nobres" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+        </a>
+        <a href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener" class="insta-card">
+          <img src="assets/images/products/camisa-linho.jpeg" alt="La Vellune Linho Puro" loading="lazy">
+          <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <div class="logo" data-store-name>La <b>Vellune</b></div>
-          <p class="muted" data-tagline>Moda autoral feita para durar</p>
-          <p class="muted" style="margin-top:12px"><span data-address>Rua Exemplo, 000 — Centro</span></p>
+          <a href="index.html" class="footer-logo">
+            <img src="assets/images/logo-trans.png" alt="La Vellune" class="footer-logo-img" onerror="this.style.display='none';">
+            <span>La <b>Vellune</b></span>
+          </a>
+          <p class="footer-desc" data-tagline>Elegance in every detail · Timeless fashion</p>
+          <p class="footer-location"><i class="fas fa-map-marker-alt"></i> <span data-address>Aracaju — SE, Brasil</span></p>
         </div>
         <div>
-          <h4>Atendimento</h4>
-          <a data-email href="#">contato@lavellune.com.br</a>
-          <span class="muted" data-phone>(43) 0000-0000</span>
-          <a data-instagram href="#" target="_blank" rel="noopener">Instagram</a>
+          <h4>Atendimento VIP</h4>
+          <a id="footer-wpp-link" href="https://wa.me/5579996179533" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> (79) 99617-9533</a>
+          <a data-email href="mailto:contato@lavellune.com.br"><i class="far fa-envelope"></i> contato@lavellune.com.br</a>
+          <a data-instagram href="https://www.instagram.com/la.vellune/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> @la.vellune</a>
         </div>
         <div>
           <h4>Institucional</h4>
-          <a href="#">Trocas e devoluções</a>
-          <a href="#">Formas de pagamento</a>
-          <a href="#">Política de privacidade</a>
-          <a href="admin/index.html">Painel administrativo</a>
+          <a href="#catalogo">Coleção Atemporal</a>
+          <a href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20envios%20e%20trocas." target="_blank" rel="noopener">Envios e Prazos</a>
+          <a href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20consultar%20formas%20de%20pagamento." target="_blank" rel="noopener">Formas de Pagamento</a>
+          <a href="admin/index.html">Painel Administrativo</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span data-footer-note>CNPJ 00.000.000/0001-00 · Todos os direitos reservados</span>
-      · Desenvolvido por <a href="https://instagram.com/lspktech" target="_blank" rel="noopener" style="color:var(--accent)">LSPK Technology</a>
+      <div class="container footer-bottom-container">
+        <span data-footer-note>CNPJ 00.000.000/0001-00 · Todos os direitos reservados à La Vellune</span>
+        <span class="footer-dev">Desenvolvido por <a href="https://instagram.com/lspktech" target="_blank" rel="noopener">LSPK Technology</a></span>
+      </div>
     </div>
   </footer>
 
-  <script src="js/data.js?v=20261006c"></script>
-  <script src="js/store.js?v=20261006c"></script>
+  <!-- Floating WhatsApp Concierge (NT Eleganz Style) -->
+  <a id="floating-wpp" href="https://wa.me/5579996179533?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20as%20pe%C3%A7as%20da%20La%20Vellune." target="_blank" rel="noopener" class="floating-wpp-btn" aria-label="Falar com consultora via WhatsApp">
+    <div class="floating-wpp-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+    <span class="floating-wpp-tooltip">Atendimento VIP</span>
+  </a>
+
+  <!-- Scripts -->
+  <script src="js/data.js?v=20261006d"></script>
+  <script src="js/store.js?v=20261006d"></script>
 </body>
 </html>

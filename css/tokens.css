@@ -9,18 +9,18 @@
    ============================================================ */
 
 :root {
-  /* ---- MARCA: cores principais (troque por aqui) ---- */
-  --brand-bg:        #0e0e10;   /* fundo geral (quase preto) */
-  --brand-surface:   #16161a;   /* cartões, cabeçalho */
-  --brand-surface-2: #1f1f26;   /* campos, hover */
-  --brand-text:      #f5f3ef;   /* texto principal (branco quente) */
-  --brand-muted:     #a7a39b;   /* texto secundário */
-  --brand-accent:    #c8a261;   /* destaque / dourado da marca */
-  --brand-accent-2:  #d9b877;   /* destaque claro (hover) */
-  --brand-on-accent: #141210;   /* texto sobre o dourado */
-  --brand-border:    rgba(255, 255, 255, 0.09);
-  --brand-danger:    #e5484d;
-  --brand-success:   #43b581;
+  /* ---- MARCA: cores principais (identidade visual autêntica La Vellune) ---- */
+  --brand-bg:        #faf7f0;   /* fundo marfim / seda crua (extraído da logo) */
+  --brand-surface:   #ffffff;   /* cartões, modais e áreas de destaque */
+  --brand-surface-2: #f2efe8;   /* campos, chips, botões secundários */
+  --brand-text:      #112418;   /* verde floresta profundo / noir (monograma da logo) */
+  --brand-muted:     #636b62;   /* texto secundário refinado */
+  --brand-accent:    #c8a261;   /* dourado champanhe de luxo */
+  --brand-accent-2:  #b38e4d;   /* dourado escuro (hover) */
+  --brand-on-accent: #ffffff;   /* texto sobre o dourado */
+  --brand-border:    rgba(17, 36, 24, 0.09);
+  --brand-danger:    #dc2626;
+  --brand-success:   #15803d;
 
   /* ---- MARCA: fontes (troque pela tipografia da marca) ---- */
   --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
@@ -58,13 +58,13 @@
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
 
   /* Raio, sombra, layout */
-  --radius: 14px;
+  --radius: 12px;
   --radius-sm: 8px;
   --radius-pill: 999px;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow: 0 20px 60px rgba(17, 36, 24, 0.14);
+  --shadow-sm: 0 4px 20px rgba(17, 36, 24, 0.06);
   --container: 1240px;
-  --header-h: 72px;
+  --header-h: 76px;
 
   /* Transições */
   --t-fast: 140ms ease;

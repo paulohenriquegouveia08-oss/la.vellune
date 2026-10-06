@@ -12,68 +12,196 @@
 (function () {
   "use strict";
 
-  var PRODUCTS_KEY = "lavellune_products_v1";
-  var SETTINGS_KEY = "lavellune_settings_v1";
-  var SIZELISTS_KEY = "lavellune_sizelists_v1";   // listas de tamanho (ex: Roupas, Calçados)
-  var CATEGORIES_KEY = "lavellune_categories_v1"; // categorias + lista de tamanho vinculada
-  var FINANCE_KEY = "lavellune_finance_v1";       // lançamentos do controle financeiro
+  var PRODUCTS_KEY = "lavellune_products_v2";
+  var SETTINGS_KEY = "lavellune_settings_v2";
+  var SIZELISTS_KEY = "lavellune_sizelists_v2";   // listas de tamanho (ex: Roupas, Calçados)
+  var CATEGORIES_KEY = "lavellune_categories_v2"; // categorias + lista de tamanho vinculada
+  var FINANCE_KEY = "lavellune_finance_v2";       // lançamentos do controle financeiro
 
-  /* ---- Dados de exemplo (o cliente troca pelos reais no painel) ---- */
+  /* ---- Catálogo Atemporal La Vellune (produtos reais em alta definição) ---- */
   var SEED_PRODUCTS = [
-    { brand: "La Vellune", name: "Vestido Midi Seda Pura", category: "Vestidos", price: 689.9, oldPrice: 890, sizes: ["PP", "P", "M", "G"], colors: ["Preto", "Champagne"], stock: 8, featured: true, desc: "Vestido midi em seda com caimento fluido e acabamento artesanal." },
-    { brand: "La Vellune", name: "Blazer Alfaiataria Lã Fria", category: "Blazers", price: 759, oldPrice: null, sizes: ["P", "M", "G"], colors: ["Caramelo", "Preto"], stock: 5, featured: true, desc: "Alfaiataria estruturada em lã fria, forro acetinado." },
-    { brand: "La Vellune", name: "Blusa Cetim Gola Laço", category: "Blusas", price: 329.9, oldPrice: 399, sizes: ["PP", "P", "M", "G", "GG"], colors: ["Marfim", "Vinho"], stock: 14, featured: false, desc: "Blusa em cetim com gola laço removível." },
-    { brand: "La Vellune", name: "Calça Pantalona Cintura Alta", category: "Calças", price: 459, oldPrice: null, sizes: ["36", "38", "40", "42"], colors: ["Preto", "Areia"], stock: 0, featured: false, desc: "Pantalona de cintura alta com prega marcada." },
-    { brand: "La Vellune", name: "Scarpin Couro Nobuck", category: "Calçados", price: 549.9, oldPrice: 649, sizes: ["34", "35", "36", "37", "38", "39"], colors: ["Nude", "Preto"], stock: 11, featured: true, desc: "Scarpin em couro nobuck com salto taça de 7cm." },
-    { brand: "La Vellune", name: "Bolsa Estruturada Couro", category: "Bolsas", price: 899, oldPrice: null, sizes: ["Único"], colors: ["Caramelo", "Off-white"], stock: 6, featured: true, desc: "Bolsa estruturada em couro legítimo com alça dupla." },
-    { brand: "La Vellune", name: "Conjunto Tricô Costela", category: "Conjuntos", price: 619, oldPrice: 720, sizes: ["P", "M", "G"], colors: ["Cinza", "Terracota"], stock: 9, featured: false, desc: "Conjunto de tricô canelado — cropped e saia midi." },
-    { brand: "La Vellune", name: "Lenço Seda Estampado", category: "Acessórios", price: 189.9, oldPrice: null, sizes: ["Único"], colors: ["Esmeralda", "Dourado"], stock: 22, featured: false, desc: "Lenço 90x90 em seda com estampa exclusiva." },
-    { brand: "La Vellune", name: "Vestido Longo Festa", category: "Vestidos", price: 1290, oldPrice: 1490, sizes: ["P", "M", "G"], colors: ["Marsala", "Petróleo"], stock: 3, featured: true, desc: "Vestido longo de festa com fenda e decote drapeado." },
-    { brand: "La Vellune", name: "Mule Salto Bloco", category: "Calçados", price: 429, oldPrice: null, sizes: ["35", "36", "37", "38", "39"], colors: ["Caramelo", "Preto"], stock: 7, featured: false, desc: "Mule de salto bloco confortável, couro macio." },
+    {
+      brand: "La Vellune",
+      name: "Polo Custom Slim Fit Navy Blue",
+      category: "Polos",
+      price: 489.0,
+      oldPrice: 590.0,
+      sizes: ["P", "M", "G", "GG"],
+      colors: ["Azul Marinho"],
+      stock: 6,
+      featured: true,
+      badge: "DESTAQUE",
+      image: "assets/images/products/polo-ralph-lauren-custom-navy.jpg",
+      images: [
+        "assets/images/products/polo-ralph-lauren-custom-navy.jpg",
+        "assets/images/products/detalhe-textura-piquet.jpg",
+        "assets/images/products/colecao-polos-atemporal.jpg"
+      ],
+      desc: "Confeccionada em piquet 100% algodão nobre penteado. Modelagem Custom Slim Fit que proporciona caimento impecável ao corpo, botões em madrepérola e bordado sutil de alto relevo. Uma peça essencial que personifica a elegância atemporal."
+    },
+    {
+      brand: "La Vellune",
+      name: "Camisa Linho Puro Italiano",
+      category: "Camisas",
+      price: 689.0,
+      oldPrice: 790.0,
+      sizes: ["P", "M", "G", "GG"],
+      colors: ["Branco Neve", "Areia"],
+      stock: 5,
+      featured: true,
+      badge: "NOVIDADE",
+      image: "assets/images/products/camisa-linho.jpeg",
+      images: [
+        "assets/images/products/camisa-linho.jpeg"
+      ],
+      desc: "Linho puro de tecelagem italiana de toque arejado e fresco. Corte alfaiataria com costuras francesas, gola estruturada e abotoamento discreto. Ideal para composições de luxo discreto tanto em eventos diurnos quanto noturnos."
+    },
+    {
+      brand: "La Vellune",
+      name: "Polo Piquet Sky Blue Classic",
+      category: "Polos",
+      price: 489.0,
+      oldPrice: null,
+      sizes: ["P", "M", "G"],
+      colors: ["Azul Claro"],
+      stock: 4,
+      featured: true,
+      badge: "ATEMPORAL",
+      image: "assets/images/products/polo-light-blue.jpeg",
+      images: [
+        "assets/images/products/polo-light-blue.jpeg",
+        "assets/images/products/detalhe-textura-piquet.jpg"
+      ],
+      desc: "Polo clássica na nuance azul celeste suave. Fibras longas selecionadas com elasticidade natural e excelente respirabilidade térmica. Gola e punhos com acabamento canelado duplo que mantém a sustentação estrutural."
+    },
+    {
+      brand: "La Vellune",
+      name: "Quarter-Zip Pullover Atemporal",
+      category: "Suéteres",
+      price: 789.0,
+      oldPrice: 890.0,
+      sizes: ["P", "M", "G"],
+      colors: ["Bege Areia", "Caramelo"],
+      stock: 3,
+      featured: true,
+      badge: "OFERTA",
+      image: "assets/images/products/quarter-zip.jpeg",
+      images: [
+        "assets/images/products/quarter-zip.jpeg"
+      ],
+      desc: "Pullover de meio zíper metálico em liga nobre antioxidante com puxador refinado. Malha encorpada de toque aveludado para compor sobreposições elegantes com camisas ou polos."
+    },
+    {
+      brand: "La Vellune",
+      name: "Polo Piquet Plum Burgundy",
+      category: "Polos",
+      price: 489.0,
+      oldPrice: null,
+      sizes: ["P", "M", "G"],
+      colors: ["Borgonha", "Marsala"],
+      stock: 2,
+      featured: false,
+      badge: "ÚLTIMAS PEÇAS",
+      image: "assets/images/products/polo-purple.jpeg",
+      images: [
+        "assets/images/products/polo-purple.jpeg"
+      ],
+      desc: "Edição especial com tonalidade vinho profundo. Tingimento reativo que preserva o brilho e a solidez da cor mesmo após sucessivas lavagens. Perfeita para harmonizar com alfaiataria em tons neutros."
+    },
+    {
+      brand: "La Vellune",
+      name: "Polo Classic Deep Navy",
+      category: "Polos",
+      price: 489.0,
+      oldPrice: 550.0,
+      sizes: ["M", "G", "GG"],
+      colors: ["Azul Noite"],
+      stock: 7,
+      featured: false,
+      badge: "ESSENCIAL",
+      image: "assets/images/products/polo-navy.jpeg",
+      images: [
+        "assets/images/products/polo-navy.jpeg",
+        "assets/images/products/detalhe-textura-piquet.jpg"
+      ],
+      desc: "A polo indispensável no guarda-roupa masculino contemporâneo. Corte clássico alinhado, tecido de alta densidade e toque macio sem desbotamento."
+    },
+    {
+      brand: "La Vellune",
+      name: "Coleção Cápsula Polos Selecionadas",
+      category: "Polos",
+      price: 1350.0,
+      oldPrice: 1590.0,
+      sizes: ["Grade P", "Grade M", "Grade G"],
+      colors: ["Cartela Atemporal"],
+      stock: 5,
+      featured: true,
+      badge: "EDIÇÃO ESPECIAL",
+      image: "assets/images/products/colecao-polos-atemporal.jpg",
+      images: [
+        "assets/images/products/colecao-polos-atemporal.jpg",
+        "assets/images/products/detalhe-textura-piquet.jpg"
+      ],
+      desc: "Conjunto exclusivo contendo seleção de polos em cartela de cores clássicas (Marinho, Verde Floresta, Mostarda, Vinho e Celeste). Uma experiência completa da alfaiataria La Vellune."
+    },
+    {
+      brand: "La Vellune",
+      name: "Suéter Tricô Fino Merino Grey",
+      category: "Suéteres",
+      price: 720.0,
+      oldPrice: null,
+      sizes: ["M", "G"],
+      colors: ["Cinza Mescla"],
+      stock: 0,
+      featured: false,
+      badge: "ESGOTADO",
+      image: "assets/images/products/sueter-ralph.jpg",
+      images: [
+        "assets/images/products/sueter-ralph.jpg"
+      ],
+      desc: "Tricô clássico em malha fina com caimento leve e confortável. Gola redonda com acabamento elástico que mantém a estrutura da peça intacta."
+    }
   ];
 
   var DEFAULT_SETTINGS = {
     storeName: "La Vellune",
-    tagline: "Moda autoral feita para durar",
-    whatsapp: "5543000000000",          /* << troque pelo WhatsApp real */
-    instagram: "https://instagram.com/lavellune",
+    tagline: "Elegance in every detail · Timeless fashion",
+    whatsapp: "5579996179533",          /* << WhatsApp de atendimento La Vellune */
+    instagram: "https://www.instagram.com/la.vellune/",
     email: "contato@lavellune.com.br",
-    phone: "(43) 0000-0000",
-    address: "Rua Exemplo, 000 — Centro, Cidade/UF",
+    phone: "(79) 99617-9533",
+    address: "Aracaju — SE, Brasil",
     footerNote: "CNPJ 00.000.000/0001-00 · Todos os direitos reservados",
     freeShippingFrom: 499,
-    /* Logo da loja (URL ou dataURL). Vazio = usa o monograma com o nome. */
-    logo: "",
+    /* Logo da loja (URL ou dataURL). */
+    logo: "assets/images/logo.png",
   };
 
-  /* ---- Listas de tamanho: uma lista é reutilizada por várias categorias ---- */
+  /* ---- Listas de tamanho ---- */
   var SEED_SIZELISTS = [
-    { id: "sl-roupas", name: "Roupas", sizes: ["PP", "P", "M", "G", "GG"] },
-    { id: "sl-calcados", name: "Calçados", sizes: ["34", "35", "36", "37", "38", "39", "40"] },
-    { id: "sl-unico", name: "Peça única", sizes: ["Único"] },
+    { id: "sl-roupas", name: "Roupas e Polos", sizes: ["P", "M", "G", "GG"] },
+    { id: "sl-calcados", name: "Calçados", sizes: ["39", "40", "41", "42", "43"] },
+    { id: "sl-unico", name: "Peça única / Acessório", sizes: ["Único"] },
   ];
 
-  /* ---- Categorias: cada uma aponta para uma lista de tamanho ---- */
+  /* ---- Categorias ---- */
   var SEED_CATEGORIES = [
-    { id: "cat-vestidos", name: "Vestidos", sizeListId: "sl-roupas" },
-    { id: "cat-blusas", name: "Blusas", sizeListId: "sl-roupas" },
-    { id: "cat-blazers", name: "Blazers", sizeListId: "sl-roupas" },
-    { id: "cat-calcas", name: "Calças", sizeListId: "sl-roupas" },
-    { id: "cat-conjuntos", name: "Conjuntos", sizeListId: "sl-roupas" },
-    { id: "cat-calcados", name: "Calçados", sizeListId: "sl-calcados" },
-    { id: "cat-bolsas", name: "Bolsas", sizeListId: "sl-unico" },
+    { id: "cat-polos", name: "Polos", sizeListId: "sl-roupas" },
+    { id: "cat-camisas", name: "Camisas", sizeListId: "sl-roupas" },
+    { id: "cat-sueteres", name: "Suéteres", sizeListId: "sl-roupas" },
+    { id: "cat-alfaiataria", name: "Alfaiataria", sizeListId: "sl-roupas" },
     { id: "cat-acessorios", name: "Acessórios", sizeListId: "sl-unico" },
   ];
 
-  /* ---- Lançamentos financeiros de exemplo (receitas e despesas) ---- */
+  /* ---- Lançamentos financeiros de exemplo ---- */
   var SEED_FINANCE = [
-    { id: "fin-1", type: "receita", description: "Venda — Vestido Midi Seda", amount: 689.9, date: "2026-10-01" },
-    { id: "fin-2", type: "receita", description: "Venda — Scarpin Couro", amount: 549.9, date: "2026-10-02" },
-    { id: "fin-3", type: "despesa", description: "Fornecedor — tecidos", amount: 1200, date: "2026-10-02" },
-    { id: "fin-4", type: "receita", description: "Venda — Bolsa Estruturada", amount: 899, date: "2026-10-03" },
-    { id: "fin-5", type: "despesa", description: "Anúncios — Meta Ads", amount: 350, date: "2026-10-04" },
-    { id: "fin-6", type: "receita", description: "Venda — Conjunto Tricô", amount: 619, date: "2026-10-05" },
-    { id: "fin-7", type: "despesa", description: "Embalagens e etiquetas", amount: 180, date: "2026-10-05" },
+    { id: "fin-1", type: "receita", description: "Venda — Polo Custom Slim Fit Navy", amount: 489.0, date: "2026-10-01" },
+    { id: "fin-2", type: "receita", description: "Venda — Camisa Linho Italiano", amount: 689.0, date: "2026-10-02" },
+    { id: "fin-3", type: "despesa", description: "Fornecedor — tecidos algodão piquet", amount: 1200, date: "2026-10-02" },
+    { id: "fin-4", type: "receita", description: "Venda — Quarter-Zip Pullover", amount: 789.0, date: "2026-10-03" },
+    { id: "fin-5", type: "despesa", description: "Embalagens especiais La Vellune", amount: 350, date: "2026-10-04" },
+    { id: "fin-6", type: "receita", description: "Venda — Polo Sky Blue Classic", amount: 489.0, date: "2026-10-05" },
+    { id: "fin-7", type: "despesa", description: "Campanha Meta Ads Atemporal", amount: 180, date: "2026-10-05" },
   ];
 
   /* ---------- helpers ---------- */
@@ -99,7 +227,7 @@
     if (!existing) {
       var now = Date.now();
       var seeded = SEED_PRODUCTS.map(function (p, i) {
-        return Object.assign({ id: uid(), createdAt: now - i * 1000, image: "" }, p);
+        return Object.assign({ id: uid(), createdAt: now - i * 1000 }, p);
       });
       write(PRODUCTS_KEY, seeded);
     }
@@ -109,27 +237,20 @@
     if (!read(FINANCE_KEY, null)) write(FINANCE_KEY, SEED_FINANCE);
   }
 
-  /* ---------- logo da marca / placeholder (SVG, funciona offline) ----------
-     Quando o produto NÃO tem foto, a vitrine mostra a logo da loja. Se a
-     loja também não tiver logo cadastrada, cai neste monograma elegante
-     gerado a partir do NOME da loja (não das iniciais do produto). */
+  /* ---------- logo da marca / placeholder (SVG, funciona offline) ---------- */
   function xmlEsc(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
   function brandMonogram() {
     var name = (getSettings().storeName || "La Vellune").trim();
-    var initials = name.split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
     var svg =
       "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='760'>" +
-      "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>" +
-      "<stop offset='0' stop-color='#1b1b20'/><stop offset='1' stop-color='#2b2620'/>" +
-      "</linearGradient></defs>" +
-      "<rect width='600' height='760' fill='url(#g)'/>" +
-      "<rect x='20' y='20' width='560' height='720' fill='none' stroke='#c8a261' stroke-opacity='0.35'/>" +
-      "<text x='300' y='360' font-family='Georgia,serif' font-size='120' fill='#c8a261' " +
-      "text-anchor='middle' opacity='0.85'>" + xmlEsc(initials) + "</text>" +
-      "<text x='300' y='430' font-family='Georgia,serif' font-size='26' fill='#f5f3ef' " +
-      "letter-spacing='6' text-anchor='middle' opacity='0.75'>" + xmlEsc(name.toUpperCase()) + "</text>" +
+      "<rect width='600' height='760' fill='#faf7f0'/>" +
+      "<rect x='20' y='20' width='560' height='720' fill='none' stroke='#c8a261' stroke-opacity='0.4'/>" +
+      "<text x='300' y='360' font-family='Georgia,serif' font-size='120' fill='#112418' font-style='italic' " +
+      "text-anchor='middle'>Lv</text>" +
+      "<text x='300' y='430' font-family='Georgia,serif' font-size='24' fill='#112418' " +
+      "letter-spacing='6' text-anchor='middle' opacity='0.85'>" + xmlEsc(name.toUpperCase()) + "</text>" +
       "</svg>";
     return "data:image/svg+xml," + encodeURIComponent(svg);
   }

@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Painel — La Vellune</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e0e10'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23c8a261' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="../assets/images/logo-trans.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=20261006c">
-  <link rel="stylesheet" href="../css/base.css?v=20261006c">
-  <link rel="stylesheet" href="../css/admin.css?v=20261006c">
+  <link rel="stylesheet" href="../css/tokens.css?v=20261006d">
+  <link rel="stylesheet" href="../css/base.css?v=20261006d">
+  <link rel="stylesheet" href="../css/admin.css?v=20261006d">
 </head>
 <body>
 
   <!-- LOGIN (demo) -->
   <div id="login" class="login-screen hide">
     <form class="login-card" id="login-form">
-      <span class="logo">La <b style="color:var(--accent);font-weight:500">Vellune</b></span>
+      <img src="../assets/images/logo-trans.png" alt="La Vellune" style="height:52px;margin:0 auto 10px;display:block;">
       <p class="muted" style="text-align:center;margin-bottom:var(--sp-5)">Painel administrativo</p>
       <div class="field" style="margin-bottom:var(--sp-4)"><span>Usuário</span>
         <input class="input" id="l-user" autocomplete="username" value="admin"></div>
@@ -32,7 +32,9 @@
   <!-- APP -->
   <div id="app" class="admin-layout hide">
     <aside class="admin-side">
-      <a href="../index.html" class="logo">La <b style="color:var(--accent);font-weight:500">Vellune</b></a>
+      <a href="../index.html" class="logo" style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <img src="../assets/images/logo-trans.png" alt="La Vellune" style="height:42px;width:auto;display:block;">
+      </a>
       <button class="nav-item active" data-go="products">▣ Produtos</button>
       <button class="nav-item" data-go="new">＋ Novo produto</button>
       <button class="nav-item" data-go="finance">＄ Financeiro</button>
