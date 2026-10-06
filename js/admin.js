@@ -116,8 +116,10 @@
     // Ativa a seção do formulário aqui mesmo (sem passar pelo go("new"),
     // que chamaria openForm de volta).
     $$(".section").forEach(function (s) { s.classList.toggle("active", s.id === "sec-new"); });
-    $$(".nav-item").forEach(function (n) { n.classList.toggle("active", n.dataset.go === "new"); });
-    $("#form-title").textContent = p ? "Editar produto" : "Novo produto";
+    // Editando: destaca "Produtos" (você veio da lista). Só o cadastro de
+    // verdade destaca "Novo produto". Assim a edição não parece a tela de add.
+    $$(".nav-item").forEach(function (n) { n.classList.toggle("active", n.dataset.go === (p ? "products" : "new")); });
+    $("#form-title").textContent = p ? "Editar: " + p.name : "Novo produto";
     var f = $("#product-form");
     f.id_.value = p ? p.id : "";
     f.name_.value = p ? p.name : "";
@@ -132,6 +134,8 @@
     f.imageUrl_.value = p && p.image && !/^data:/.test(p.image) ? p.image : "";
     f.featured_.checked = p ? !!p.featured : false;
     updatePreview(p ? LV.imageOf(p) : LV.imageOf({ brand: "La Vellune", name: "" }));
+    // Sobe para o topo para o formulário preenchido ficar visível de cara.
+    try { window.scrollTo({ top: 0, behavior: "auto" }); } catch (e) { window.scrollTo(0, 0); }
   }
 
   function updatePreview(src) { $("#img-preview").src = src; }
