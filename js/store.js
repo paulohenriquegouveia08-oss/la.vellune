@@ -10,9 +10,51 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var CART_KEY = "lavellune_cart_v2";
+  var WISHLIST_KEY = "lavellune_wishlist_v2";
 
-  var state = { category: "all", search: "", priceMin: "", priceMax: "", size: "all", sort: "new", inStock: false };
+  var state = { category: "all", search: "", priceMin: "", priceMax: "", size: "all", sort: "new", inStock: false, onlyWishlist: false };
   var modalProduct = null, modalSize = null, modalColor = null, modalQty = 1, modalActiveImgIdx = 0;
+
+  /* ---------- Lista de Favoritos (Wishlist Louis Vuitton) ---------- */
+  function getWishlist() {
+    try { return JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []; } catch (e) { return []; }
+  }
+  function setWishlist(w) {
+    try { localStorage.setItem(WISHLIST_KEY, JSON.stringify(w)); } catch (e) {}
+    renderWishlistCount();
+  }
+  function isWishlisted(id) {
+    return getWishlist().indexOf(id) !== -1;
+  }
+  function toggleWishlist(id) {
+    var w = getWishlist();
+    var idx = w.indexOf(id);
+    var p = LV.getProduct(id);
+    var name = p ? p.name : "Peça";
+    if (idx !== -1) {
+      w.splice(idx, 1);
+      setWishlist(w);
+      toast("Removido dos favoritos");
+    } else {
+      w.push(id);
+      setWishlist(w);
+      toast("♥ " + name + " adicionado aos favoritos");
+    }
+    render();
+  }
+  function renderWishlistCount() {
+    var count = getWishlist().length;
+    var badge = $("#wishlist-count");
+    var btn = $("#header-wishlist-btn");
+    if (badge) {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? "grid" : "none";
+    }
+    if (btn) {
+      if (count > 0) btn.classList.add("has-items");
+      else btn.classList.remove("has-items");
+    }
+  }
 
   /* ---------- Carrinho (Sacola de compras) ---------- */
   function getCart() {
@@ -95,40 +137,76 @@
     document.title = s.storeName + " — Elegance in every detail | Moda Atemporal";
   }
 
-  /* ---------- Filtros de Categorias e Tamanhos ---------- */
+  /* ---------- Filtros de Categorias e Tamanhos (Subnav + Drawer) ---------- */
   function renderFilters() {
     var cats = LV.getCategories();
-    var catRow = $("#f-categories");
-    if (catRow) {
-      catRow.innerHTML =
-        '<button class="chip' + (state.category === "all" ? " active" : "") + '" data-cat="all">Todas</button>' +
+
+    // 1. Subnav Horizontal (Estilo Louis Vuitton)
+    var subnavTrack = $("#lv-subnav-track");
+    if (subnavTrack) {
+      subnavTrack.innerHTML =
+        '<button type="button" class="lv-subnav-tab' + (state.category === "all" && !state.onlyWishlist ? " active" : "") + '" data-cat="all">Ver Tudo</button>' +
         cats.map(function (c) {
-          return '<button class="chip' + (state.category === c.name ? " active" : "") + '" data-cat="' + esc(c.name) + '">' +
+          return '<button type="button" class="lv-subnav-tab' + (state.category === c.name && !state.onlyWishlist ? " active" : "") + '" data-cat="' + esc(c.name) + '">' +
+            esc(c.name) + '</button>';
+        }).join("");
+
+      $$(".lv-subnav-tab", subnavTrack).forEach(function (b) {
+        b.onclick = function () {
+          state.category = b.dataset.cat;
+          state.onlyWishlist = false;
+          render();
+        };
+      });
+    }
+
+    // 2. Chips no Drawer de Filtros
+    var drawerCats = $("#drawer-categories");
+    if (drawerCats) {
+      drawerCats.innerHTML =
+        '<button type="button" class="chip' + (state.category === "all" ? " active" : "") + '" data-cat="all">Todas</button>' +
+        cats.map(function (c) {
+          return '<button type="button" class="chip' + (state.category === c.name ? " active" : "") + '" data-cat="' + esc(c.name) + '">' +
             esc(c.name) + ' <span class="muted" style="font-size:10px">(' + c.count + ')</span></button>';
         }).join("");
-      $$("#f-categories .chip").forEach(function (b) {
+      $$(".chip", drawerCats).forEach(function (b) {
         b.onclick = function () { state.category = b.dataset.cat; render(); };
       });
     }
 
+    // 3. Tamanhos no Drawer de Filtros
     var sizes = LV.allSizes();
-    var sizeRow = $("#f-sizes");
-    if (sizeRow) {
-      sizeRow.innerHTML =
-        '<button class="chip' + (state.size === "all" ? " active" : "") + '" data-size="all">Todos</button>' +
+    var drawerSizes = $("#drawer-sizes");
+    if (drawerSizes) {
+      drawerSizes.innerHTML =
+        '<button type="button" class="chip' + (state.size === "all" ? " active" : "") + '" data-size="all">Todos</button>' +
         sizes.map(function (s) {
-          return '<button class="chip' + (state.size === s ? " active" : "") + '" data-size="' + esc(s) + '">' + esc(s) + '</button>';
+          return '<button type="button" class="chip' + (state.size === s ? " active" : "") + '" data-size="' + esc(s) + '">' + esc(s) + '</button>';
         }).join("");
-      $$("#f-sizes .chip").forEach(function (b) {
+      $$(".chip", drawerSizes).forEach(function (b) {
         b.onclick = function () { state.size = b.dataset.size; render(); };
       });
     }
+
+    // Atualiza o Título do Cabeçalho da Coleção
+    var catTitle = $("#catalog-category-title");
+    if (catTitle) {
+      if (state.onlyWishlist) catTitle.textContent = "Meus Favoritos";
+      else if (state.category === "all") catTitle.textContent = "Ready-to-Wear";
+      else catTitle.textContent = state.category;
+    }
   }
 
-  /* ---------- Renderização do Catálogo (Cards NT Eleganz) ---------- */
+  /* ---------- Renderização do Catálogo (Grade 4 Colunas Louis Vuitton) ---------- */
   function render() {
     renderFilters();
     var list = LV.queryProducts(state);
+
+    if (state.onlyWishlist) {
+      var favs = getWishlist();
+      list = list.filter(function (p) { return favs.indexOf(p.id) !== -1; });
+    }
+
     var grid = $("#grid");
     var resCount = $("#result-count");
     if (resCount) {
@@ -138,29 +216,45 @@
     if (!list.length) {
       grid.innerHTML =
         '<div class="empty" style="grid-column:1/-1;text-align:center;padding:70px 20px;">' +
-        '<div style="font-size:42px;color:var(--accent);margin-bottom:12px;">✦</div>' +
-        '<h3 style="font-family:var(--font-display);font-size:1.6rem;margin-bottom:8px;">Nenhuma peça encontrada</h3>' +
-        '<p class="muted" style="max-width:400px;margin:0 auto 20px;">Tente ajustar os filtros ou buscar por outros termos.</p>' +
-        '<button class="btn btn-outline btn-sm" id="empty-clear-btn">Limpar todos os filtros</button>' +
+        '<div style="font-size:42px;color:var(--text);margin-bottom:12px;">✦</div>' +
+        '<h3 style="font-family:var(--font-display);font-size:1.6rem;font-weight:400;margin-bottom:8px;">Nenhuma peça encontrada</h3>' +
+        '<p class="muted" style="max-width:400px;margin:0 auto 20px;">' + (state.onlyWishlist ? "Você ainda não favoritou nenhuma peça. Clique no ícone de coração nos produtos para salvar aqui." : "Tente ajustar os filtros ou buscar por outros termos.") + '</p>' +
+        '<button class="btn btn-outline btn-sm" id="empty-clear-btn" style="border-radius:var(--radius-pill);">Ver coleção completa</button>' +
         '</div>';
       var empClear = $("#empty-clear-btn");
-      if (empClear) empClear.onclick = function () { $("#f-clear").click(); };
+      if (empClear) {
+        empClear.onclick = function () {
+          state.category = "all";
+          state.onlyWishlist = false;
+          render();
+        };
+      }
       return;
     }
 
     grid.innerHTML = list.map(cardHTML).join("");
 
-    // O CARD INTEIRO É CLICÁVEL (ESTILO FB ELEGANCE)
-    $$(".card").forEach(function (card) {
+    // O CARD INTEIRO É CLICÁVEL (ABRE MODAL EM TELA ÚNICA)
+    $$(".card", grid).forEach(function (card) {
       card.onclick = function (e) {
-        // Se clicar em botão de adicionar direto ou algo específico, não abre modal duplicado
+        // Se clicar no botão de favoritar, não abre o modal
+        if (e.target.closest(".card-wishlist-btn")) return;
         openProductModal(card.dataset.id);
+      };
+    });
+
+    // Wire: Botões de Favoritos nos Cards
+    $$(".card-wishlist-btn", grid).forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        toggleWishlist(btn.dataset.id);
       };
     });
   }
 
   function cardHTML(p) {
     var out = p.stock <= 0;
+    var isFav = isWishlisted(p.id);
     var tags = "";
     if (out) tags += '<span class="badge badge-danger">ESGOTADO</span>';
     else if (p.stock <= 2) tags += '<span class="badge badge-muted">ÚLTIMAS ' + p.stock + '</span>';
@@ -171,25 +265,27 @@
     var installments = "ou 6x de " + LV.formatPrice(p.price / 6) + " sem juros";
 
     return (
-      '<article class="card reveal ' + (out ? "is-out-of-stock" : "") + '" data-id="' + p.id + '">' +
-        '<div class="card-media">' +
+      '<article class="card lv-card reveal ' + (out ? "is-out-of-stock" : "") + '" data-id="' + p.id + '">' +
+        '<div class="card-media lv-card-media">' +
+          '<button type="button" class="card-wishlist-btn ' + (isFav ? "active" : "") + '" data-id="' + p.id + '" aria-label="Favoritar peça">' +
+            '<i class="' + (isFav ? "fas fa-heart" : "far fa-heart") + '"></i>' +
+          '</button>' +
+          (tags ? '<div class="card-tags">' + tags + '</div>' : '') +
           '<img src="' + LV.imageOf(p) + '" alt="' + esc(p.name) + '" loading="lazy">' +
-          '<div class="card-tags">' + tags + '</div>' +
           '<div class="card-hover-overlay">' +
             '<button type="button" class="card-quick-view-btn">' +
-              '<i class="fas fa-eye"></i> ' + (out ? "Ver Detalhes" : "Ver Peça & Comprar") +
+              (out ? "Ver Detalhes" : "Ver Peça") +
             '</button>' +
           '</div>' +
         '</div>' +
-        '<div class="card-body">' +
-          '<span class="card-brand">' + esc(p.brand || "La Vellune") + '</span>' +
-          '<h3 class="card-name">' + esc(p.name) + '</h3>' +
+        '<div class="card-body lv-card-body">' +
+          '<h3 class="card-name lv-card-name">' + esc(p.name) + '</h3>' +
           '<div class="card-foot">' +
             '<div class="price-row-card">' +
-              '<span class="price">' + LV.formatPrice(p.price) + '</span>' +
-              (p.oldPrice && p.oldPrice > p.price ? '<span class="price-old">' + LV.formatPrice(p.oldPrice) + '</span>' : '') +
+              '<span class="price lv-card-price">' + LV.formatPrice(p.price) + '</span>' +
+              (p.oldPrice && p.oldPrice > p.price ? '<span class="price-old lv-card-price-old">' + LV.formatPrice(p.oldPrice) + '</span>' : '') +
             '</div>' +
-            '<span class="price-installments">' + installments + '</span>' +
+            '<span class="price-installments lv-card-installments">' + installments + '</span>' +
           '</div>' +
         '</div>' +
       '</article>'
@@ -682,7 +778,7 @@
 
     if (clear) {
       clear.addEventListener("click", function () {
-        state = { category: "all", search: "", priceMin: "", priceMax: "", size: "all", sort: "new", inStock: false };
+        state = { category: "all", search: "", priceMin: "", priceMax: "", size: "all", sort: "new", inStock: false, onlyWishlist: false };
         if ($("#search")) $("#search").value = "";
         if ($("#search-clear")) $("#search-clear").style.display = "none";
         if (pmin) pmin.value = "";
@@ -702,6 +798,83 @@
     }
 
     if (cartBtn) cartBtn.addEventListener("click", openCartDrawer);
+
+    /* ---- Drawer Lateral de Filtros (Estilo Louis Vuitton) ---- */
+    var filterBackdrop = $("#filter-drawer-backdrop");
+    var filterClose = $("#filter-drawer-close");
+    var filterApply = $("#filter-drawer-apply");
+    var openFilter = function () { if (filterBackdrop) filterBackdrop.classList.add("active"); };
+    var closeFilter = function () { if (filterBackdrop) filterBackdrop.classList.remove("active"); };
+
+    var floatFilterBtn = $("#floating-filter-btn");
+    if (floatFilterBtn) floatFilterBtn.addEventListener("click", openFilter);
+    var catFilterBtn = $("#catalog-filter-btn");
+    if (catFilterBtn) catFilterBtn.addEventListener("click", openFilter);
+    if (filterClose) filterClose.addEventListener("click", closeFilter);
+    if (filterApply) filterApply.addEventListener("click", closeFilter);
+    if (filterBackdrop) {
+      filterBackdrop.addEventListener("click", function (e) {
+        if (e.target === filterBackdrop) closeFilter();
+      });
+    }
+
+    /* ---- Menu Lateral Offcanvas (Estilo Louis Vuitton) ---- */
+    var menuBackdrop = $("#menu-backdrop");
+    var menuClose = $("#menu-drawer-close");
+    var menuToggle = $("#menu-toggle-btn");
+    var openMenu = function () { if (menuBackdrop) menuBackdrop.classList.add("active"); };
+    var closeMenu = function () { if (menuBackdrop) menuBackdrop.classList.remove("active"); };
+
+    if (menuToggle) menuToggle.addEventListener("click", openMenu);
+    if (menuClose) menuClose.addEventListener("click", closeMenu);
+    if (menuBackdrop) {
+      menuBackdrop.addEventListener("click", function (e) {
+        if (e.target === menuBackdrop) closeMenu();
+      });
+    }
+    $$("[data-menu-cat]", menuBackdrop).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        state.category = btn.dataset.menuCat;
+        state.onlyWishlist = false;
+        closeMenu();
+        render();
+        var cat = document.getElementById("catalogo");
+        if (cat) cat.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    /* ---- Botão de Favoritos no Header ---- */
+    var wishBtn = $("#header-wishlist-btn");
+    if (wishBtn) {
+      wishBtn.addEventListener("click", function () {
+        var count = getWishlist().length;
+        if (count === 0) {
+          toast("Você ainda não favoritou nenhuma peça. Clique no ícone de coração nos produtos!");
+          return;
+        }
+        state.onlyWishlist = !state.onlyWishlist;
+        if (state.onlyWishlist) toast("Mostrando suas peças favoritas (" + count + ")");
+        else toast("Mostrando catálogo completo");
+        render();
+        var cat = document.getElementById("catalogo");
+        if (cat) cat.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    /* ---- Visibilidade do Botão Flutuante ao Rolar ---- */
+    var floatWrap = $("#floating-filter-wrap");
+    if (floatWrap) {
+      window.addEventListener("scroll", function () {
+        var scrollY = window.scrollY || window.pageYOffset;
+        var catEl = document.getElementById("catalogo");
+        var catTop = catEl ? (catEl.offsetTop - 180) : 380;
+        if (scrollY > catTop) {
+          floatWrap.classList.remove("is-hidden");
+        } else {
+          floatWrap.classList.add("is-hidden");
+        }
+      }, { passive: true });
+    }
   }
 
   /* ---------- Verificação de URL com produto (?p=id) ---------- */
@@ -884,6 +1057,7 @@
     wireControls();
     render();
     renderCartCount();
+    renderWishlistCount();
     checkUrlForProduct();
     initInstaCarousel();
     initScrollReveal();

@@ -8,29 +8,32 @@
    preciso caçar cor espalhada pelo CSS.
    ============================================================ */
 
+/* ============================================================
+   LA VELLUNE — TOKENS DE DESIGN (INSPIRADO EM LOUIS VUITTON)
+   Estética de alta costura, minimalismo editorial, tipografia
+   geométrica e paleta de luxo atemporal.
+   ============================================================ */
+
 :root {
-  /* ---- MARCA: cores principais (identidade visual autêntica La Vellune) ---- */
-  --brand-bg:        #faf7f0;   /* fundo marfim / seda crua (extraído da logo) */
-  --brand-surface:   #ffffff;   /* cartões, modais e áreas de destaque */
-  --brand-surface-2: #f2efe8;   /* campos, chips, botões secundários */
-  --brand-text:      #112418;   /* verde floresta profundo / noir (monograma da logo) */
-  --brand-muted:     #636b62;   /* texto secundário refinado */
-  --brand-accent:    #c8a261;   /* dourado champanhe de luxo */
-  --brand-accent-2:  #b38e4d;   /* dourado escuro (hover) */
-  --brand-on-accent: #ffffff;   /* texto sobre o dourado */
-  --brand-border:    rgba(17, 36, 24, 0.09);
-  --brand-danger:    #dc2626;
-  --brand-success:   #15803d;
+  /* ---- PALETA LOUIS VUITTON: Neutros de Alta Costura & Acentos ---- */
+  --brand-bg:        #ffffff;   /* branco puro editorial */
+  --brand-surface:   #ffffff;   /* cartões e superfícies limpas */
+  --brand-surface-2: #f7f6f4;   /* estúdio fotográfico / off-white nobre */
+  --brand-text:      #111111;   /* preto absoluto de alta costura */
+  --brand-muted:     #727272;   /* cinza editorial para descrições e preços */
+  --brand-accent:    #111111;   /* botões principais em preto sólido LV */
+  --brand-accent-2:  #c29b38;   /* dourado quente / monograma de luxo */
+  --brand-on-accent: #ffffff;   /* texto sobre botão preto */
+  --brand-border:    #ebeaea;   /* divisórias ultrafinas de 1px */
+  --brand-danger:    #d92d20;   /* tag de esgotado */
+  --brand-success:   #15803d;   /* atendimento whatsapp e estoque */
 
-  /* ---- MARCA: fontes (troque pela tipografia da marca) ---- */
-  --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
-  --font-body:    "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* ---- TIPOGRAFIA LOUIS VUITTON WEB ---- */
+  --font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-body:    "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif:   "Cinzel", "Playfair Display", Georgia, serif;
 
-  /* ============================================================
-     A partir daqui raramente se mexe — escala do sistema.
-     ============================================================ */
-
-  /* Papéis semânticos (o site usa estes nomes) */
+  /* Papéis semânticos */
   --bg: var(--brand-bg);
   --surface: var(--brand-surface);
   --surface-2: var(--brand-surface-2);
@@ -43,32 +46,32 @@
   --danger: var(--brand-danger);
   --success: var(--brand-success);
 
-  /* Tipografia */
-  --fs-hero: clamp(2.4rem, 6vw, 4.5rem);
-  --fs-h2:   clamp(1.6rem, 3.2vw, 2.4rem);
-  --fs-h3:   1.25rem;
-  --fs-body: 1rem;
-  --fs-sm:   0.85rem;
+  /* Tipografia da escala LV */
+  --fs-hero: clamp(2rem, 4.5vw, 3.2rem);
+  --fs-h2:   clamp(1.4rem, 2.5vw, 2rem);
+  --fs-h3:   1.15rem;
+  --fs-body: 0.92rem;
+  --fs-sm:   0.82rem;
   --fs-xs:   0.72rem;
-  --tracking: 0.02em;
-  --tracking-wide: 0.22em;
+  --tracking: 0.04em;
+  --tracking-wide: 0.24em;
 
-  /* Espaçamento */
+  /* Espaçamento em baseline de 4px */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
 
-  /* Raio, sombra, layout */
-  --radius: 12px;
-  --radius-sm: 8px;
-  --radius-pill: 999px;
-  --shadow: 0 20px 60px rgba(17, 36, 24, 0.14);
-  --shadow-sm: 0 4px 20px rgba(17, 36, 24, 0.06);
-  --container: 1440px;
-  --header-h: 76px;
+  /* Formas, sombras e medidas */
+  --radius: 4px;
+  --radius-sm: 3px;
+  --radius-pill: 40px;
+  --shadow: 0 12px 36px rgba(0, 0, 0, 0.09);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --container: 1480px;
+  --header-h: 78px;
 
-  /* Transições */
-  --t-fast: 140ms ease;
-  --t: 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Transições suaves */
+  --t-fast: 150ms ease;
+  --t: 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Variante de tema claro, caso o designer prefira começar claro:

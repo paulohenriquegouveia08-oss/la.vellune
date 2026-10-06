@@ -8,11 +8,11 @@
   <link rel="icon" href="assets/images/logo-trans.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/tokens.css?v=20261006e">
-  <link rel="stylesheet" href="css/base.css?v=20261006e">
-  <link rel="stylesheet" href="css/store.css?v=20261006e">
+  <link rel="stylesheet" href="css/tokens.css?v=20261006f">
+  <link rel="stylesheet" href="css/base.css?v=20261006f">
+  <link rel="stylesheet" href="css/store.css?v=20261006f">
 </head>
 <body>
 
@@ -51,25 +51,37 @@
     </div>
   </div>
 
-  <!-- Header Sticky (NT Eleganz Style) -->
+  <!-- Header Minimalista (Inspirado em Louis Vuitton) -->
   <header class="site-header">
     <div class="container header-container">
-      <a href="index.html" class="brand-logo" aria-label="La Vellune Início">
-        <img src="assets/images/logo-trans.png" alt="La Vellune" class="brand-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-        <span class="brand-logo-fallback" style="display:none">La <b>Vellune</b></span>
-      </a>
-
-      <div class="header-search">
-        <i class="fas fa-search search-icon"></i>
-        <input id="search" type="search" placeholder="Buscar polos, camisas, tecidos…" aria-label="Buscar produtos">
-        <button id="search-clear" class="search-clear-btn" aria-label="Limpar busca" style="display:none">&times;</button>
+      <div class="header-left">
+        <button class="header-menu-btn" id="menu-toggle-btn" aria-label="Abrir menu de navegação">
+          <i class="fas fa-bars"></i>
+          <span>Menu</span>
+        </button>
+        <div class="header-search">
+          <i class="fas fa-search search-icon"></i>
+          <input id="search" type="search" placeholder="Buscar polos, camisas, tecidos…" aria-label="Buscar produtos">
+          <button id="search-clear" class="search-clear-btn" aria-label="Limpar busca" style="display:none">&times;</button>
+        </div>
       </div>
 
-      <div class="header-actions">
-        <a id="header-wpp-btn" href="https://wa.me/5579996179533" target="_blank" rel="noopener" class="header-action-link wpp-link" title="Atendimento WhatsApp">
-          <i class="fab fa-whatsapp"></i>
-          <span class="action-label">Atendimento VIP</span>
+      <div class="header-center">
+        <a href="index.html" class="brand-logo" aria-label="La Vellune Início">
+          <img src="assets/images/logo-trans.png" alt="La Vellune" class="brand-logo-img" onerror="this.style.display='none';">
+          <span class="brand-logo-text">LA VELLUNE</span>
         </a>
+      </div>
+
+      <div class="header-right">
+        <a id="header-wpp-btn" href="https://wa.me/5579996179533" target="_blank" rel="noopener" class="header-action-link wpp-link" title="Atendimento VIP WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+          <span class="action-label">Contate-nos</span>
+        </a>
+        <button class="header-action-btn wishlist-btn" id="header-wishlist-btn" title="Favoritos" aria-label="Ver favoritos">
+          <i class="far fa-heart" id="header-wishlist-icon"></i>
+          <span class="action-badge" id="wishlist-count" style="display:none">0</span>
+        </button>
         <a href="admin/index.html" class="header-action-link admin-link" title="Painel Administrativo">
           <i class="far fa-user"></i>
           <span class="action-label">Painel</span>
@@ -94,7 +106,7 @@
           <span>Banner Principal da Loja · Campanha Oficial</span>
         </span>
       </div>
-      <h1 class="hero-title">Elegance in Every Detail</h1>
+      <h1 class="hero-title">Ready-to-Wear</h1>
       <p class="hero-subtitle">
         Peças selecionadas, tecidos nobres e caimento impecável. A experiência do luxo clássico reimaginada para o seu cotidiano.
       </p>
@@ -150,68 +162,121 @@
     </div>
   </section>
 
-  <!-- Catalog Section -->
+  <!-- Subnav Horizontal de Categorias (The Louis Vuitton Sub-Nav) -->
+  <nav class="lv-subnav" id="lv-subnav" aria-label="Navegação de Categorias">
+    <div class="container lv-subnav-container" id="lv-subnav-track">
+      <button type="button" class="lv-subnav-tab active" data-cat="all">Ver Tudo</button>
+      <!-- Categorias adicionadas dinamicamente ou mantidas aqui -->
+    </div>
+  </nav>
+
+  <!-- Catalog Section (Estilo Louis Vuitton Ready-to-Wear) -->
   <main class="catalog" id="catalogo">
     <div class="container catalog-full-container">
       <div class="catalog-head" data-reveal>
-        <div>
-          <span class="kicker">Curadoria Selecionada</span>
-          <h2 class="catalog-title">Peças em Destaque</h2>
+        <div class="catalog-head-left">
+          <span class="kicker">Curadoria de Luxo</span>
+          <h2 class="catalog-title" id="catalog-category-title">Ready-to-Wear</h2>
+          <span class="count" id="result-count">Carregando catálogo…</span>
         </div>
-        <div class="catalog-sort-wrap">
-          <label for="sort" class="sort-label">Ordenar por:</label>
-          <select class="select" id="sort" aria-label="Ordenar produtos">
-            <option value="new">Mais recentes</option>
-            <option value="price-asc">Menor preço</option>
-            <option value="price-desc">Maior preço</option>
-            <option value="name">Nome (A–Z)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="catalog-grid-wrap">
-        <!-- Sidebar Filters (Alinhados totalmente à esquerda) -->
-        <aside class="filters" data-reveal>
-          <div class="filter-group">
-            <h4 class="filter-title"><i class="fas fa-layer-group"></i> Categorias</h4>
-            <div class="chip-row" id="f-categories"></div>
-          </div>
-
-          <div class="filter-group">
-            <h4 class="filter-title"><i class="fas fa-ruler-horizontal"></i> Tamanhos</h4>
-            <div class="chip-row" id="f-sizes"></div>
-          </div>
-
-          <div class="filter-group">
-            <h4 class="filter-title"><i class="fas fa-tag"></i> Faixa de Preço</h4>
-            <div class="price-row">
-              <input class="input" id="f-pmin" type="number" min="0" placeholder="R$ Mín" aria-label="Preço mínimo">
-              <span class="muted">—</span>
-              <input class="input" id="f-pmax" type="number" min="0" placeholder="R$ Máx" aria-label="Preço máximo">
-            </div>
-          </div>
-
-          <label class="filter-check">
-            <input type="checkbox" id="f-instock">
-            <span>Somente disponíveis (em estoque)</span>
-          </label>
-
-          <button class="btn btn-outline btn-sm btn-clear" id="f-clear">
-            <i class="fas fa-times"></i> Limpar filtros
+        <div class="catalog-head-right">
+          <button type="button" class="btn-filter-trigger" id="catalog-filter-btn" aria-label="Abrir filtros da coleção">
+            <i class="fas fa-sliders-h"></i>
+            <span>Filtros</span>
           </button>
-        </aside>
-
-        <!-- Product Cards Grid -->
-        <section class="products-section" data-reveal>
-          <div class="toolbar">
-            <span class="count" id="result-count">Carregando catálogo…</span>
-            <span class="click-hint"><i class="fas fa-hand-pointer"></i> Clique na peça para ver detalhes em tela única</span>
+          <div class="catalog-sort-wrap">
+            <label for="sort" class="sort-label">Ordenar:</label>
+            <select class="select" id="sort" aria-label="Ordenar produtos">
+              <option value="new">Mais recentes</option>
+              <option value="price-asc">Menor preço</option>
+              <option value="price-desc">Maior preço</option>
+              <option value="name">Nome (A–Z)</option>
+            </select>
           </div>
-          <div class="product-grid" id="grid"></div>
-        </section>
+        </div>
       </div>
+
+      <!-- Grade 4 Colunas no Estilo Louis Vuitton (Clean Studio Grid) -->
+      <div class="product-grid lv-product-grid" id="grid"></div>
     </div>
   </main>
+
+  <!-- Botão Flutuante de Filtros (Estilo Pílula Louis Vuitton) -->
+  <div class="lv-floating-filter-wrapper" id="floating-filter-wrap">
+    <button type="button" class="lv-floating-filter-pill" id="floating-filter-btn" aria-label="Abrir filtros">
+      <i class="fas fa-sliders-h"></i>
+      <span>Filtros</span>
+    </button>
+  </div>
+
+  <!-- Drawer Lateral de Filtros (Estilo Louis Vuitton) -->
+  <div class="lv-filter-drawer-backdrop" id="filter-drawer-backdrop">
+    <aside class="lv-filter-drawer" id="filter-drawer" role="dialog" aria-modal="true" aria-label="Filtrar por">
+      <div class="lv-drawer-head">
+        <h3>Filtrar por</h3>
+        <button type="button" class="lv-drawer-close" id="filter-drawer-close" aria-label="Fechar filtros">&times;</button>
+      </div>
+      <div class="lv-drawer-body">
+        <!-- Categorias -->
+        <div class="lv-drawer-group">
+          <h4 class="lv-group-title">Categorias</h4>
+          <div class="chip-row" id="drawer-categories"></div>
+        </div>
+
+        <!-- Tamanhos -->
+        <div class="lv-drawer-group">
+          <h4 class="lv-group-title">Tamanhos</h4>
+          <div class="chip-row" id="drawer-sizes"></div>
+        </div>
+
+        <!-- Faixa de Preço -->
+        <div class="lv-drawer-group">
+          <h4 class="lv-group-title">Faixa de Preço</h4>
+          <div class="price-row">
+            <input class="input" id="f-pmin" type="number" min="0" placeholder="R$ Mín" aria-label="Preço mínimo">
+            <span class="muted">—</span>
+            <input class="input" id="f-pmax" type="number" min="0" placeholder="R$ Máx" aria-label="Preço máximo">
+          </div>
+        </div>
+
+        <!-- Somente em Estoque -->
+        <div class="lv-drawer-group">
+          <label class="filter-check">
+            <input type="checkbox" id="f-instock">
+            <span>Somente peças em estoque</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="lv-drawer-foot">
+        <button type="button" class="btn-clear-filters" id="f-clear">Limpar Tudo</button>
+        <button type="button" class="btn-apply-filters" id="filter-drawer-apply">Mostrar Produtos</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Menu Lateral Offcanvas (Estilo Louis Vuitton) -->
+  <div class="lv-menu-backdrop" id="menu-backdrop">
+    <aside class="lv-menu-drawer" id="menu-drawer" role="dialog" aria-modal="true" aria-label="Menu Principal">
+      <div class="lv-drawer-head">
+        <span class="lv-menu-kicker">La Vellune</span>
+        <button type="button" class="lv-drawer-close" id="menu-drawer-close" aria-label="Fechar menu">&times;</button>
+      </div>
+      <nav class="lv-menu-nav">
+        <button type="button" class="lv-menu-item" data-menu-cat="all">Todas as Roupas <i class="fas fa-chevron-right"></i></button>
+        <button type="button" class="lv-menu-item" data-menu-cat="Polos">Polos Nobres <i class="fas fa-chevron-right"></i></button>
+        <button type="button" class="lv-menu-item" data-menu-cat="Camisas">Camisas em Linho <i class="fas fa-chevron-right"></i></button>
+        <button type="button" class="lv-menu-item" data-menu-cat="Suéteres">Suéteres & Pullovers <i class="fas fa-chevron-right"></i></button>
+        <div class="lv-menu-divider"></div>
+        <a href="https://wa.me/5579996179533" target="_blank" rel="noopener" class="lv-menu-item wpp-highlight">
+          <i class="fab fa-whatsapp"></i> Atendimento VIP Concierge
+        </a>
+        <a href="admin/index.html" class="lv-menu-item">
+          <i class="far fa-user"></i> Painel Administrativo
+        </a>
+      </nav>
+    </aside>
+  </div>
 
   <!-- Carrossel 3D CoverFlow do Instagram (Centro com Destaque e Laterais com Profundidade) -->
   <section class="instagram-section" data-reveal>
