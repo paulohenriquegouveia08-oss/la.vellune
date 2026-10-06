@@ -14,6 +14,9 @@
 
   var PRODUCTS_KEY = "lavellune_products_v1";
   var SETTINGS_KEY = "lavellune_settings_v1";
+  var SIZELISTS_KEY = "lavellune_sizelists_v1";   // listas de tamanho (ex: Roupas, Calçados)
+  var CATEGORIES_KEY = "lavellune_categories_v1"; // categorias + lista de tamanho vinculada
+  var FINANCE_KEY = "lavellune_finance_v1";       // lançamentos do controle financeiro
 
   /* ---- Dados de exemplo (o cliente troca pelos reais no painel) ---- */
   var SEED_PRODUCTS = [
@@ -43,6 +46,36 @@
     logo: "",
   };
 
+  /* ---- Listas de tamanho: uma lista é reutilizada por várias categorias ---- */
+  var SEED_SIZELISTS = [
+    { id: "sl-roupas", name: "Roupas", sizes: ["PP", "P", "M", "G", "GG"] },
+    { id: "sl-calcados", name: "Calçados", sizes: ["34", "35", "36", "37", "38", "39", "40"] },
+    { id: "sl-unico", name: "Peça única", sizes: ["Único"] },
+  ];
+
+  /* ---- Categorias: cada uma aponta para uma lista de tamanho ---- */
+  var SEED_CATEGORIES = [
+    { id: "cat-vestidos", name: "Vestidos", sizeListId: "sl-roupas" },
+    { id: "cat-blusas", name: "Blusas", sizeListId: "sl-roupas" },
+    { id: "cat-blazers", name: "Blazers", sizeListId: "sl-roupas" },
+    { id: "cat-calcas", name: "Calças", sizeListId: "sl-roupas" },
+    { id: "cat-conjuntos", name: "Conjuntos", sizeListId: "sl-roupas" },
+    { id: "cat-calcados", name: "Calçados", sizeListId: "sl-calcados" },
+    { id: "cat-bolsas", name: "Bolsas", sizeListId: "sl-unico" },
+    { id: "cat-acessorios", name: "Acessórios", sizeListId: "sl-unico" },
+  ];
+
+  /* ---- Lançamentos financeiros de exemplo (receitas e despesas) ---- */
+  var SEED_FINANCE = [
+    { id: "fin-1", type: "receita", description: "Venda — Vestido Midi Seda", amount: 689.9, date: "2026-10-01" },
+    { id: "fin-2", type: "receita", description: "Venda — Scarpin Couro", amount: 549.9, date: "2026-10-02" },
+    { id: "fin-3", type: "despesa", description: "Fornecedor — tecidos", amount: 1200, date: "2026-10-02" },
+    { id: "fin-4", type: "receita", description: "Venda — Bolsa Estruturada", amount: 899, date: "2026-10-03" },
+    { id: "fin-5", type: "despesa", description: "Anúncios — Meta Ads", amount: 350, date: "2026-10-04" },
+    { id: "fin-6", type: "receita", description: "Venda — Conjunto Tricô", amount: 619, date: "2026-10-05" },
+    { id: "fin-7", type: "despesa", description: "Embalagens e etiquetas", amount: 180, date: "2026-10-05" },
+  ];
+
   /* ---------- helpers ---------- */
   function read(key, fallback) {
     try {
@@ -71,6 +104,9 @@
       write(PRODUCTS_KEY, seeded);
     }
     if (!read(SETTINGS_KEY, null)) write(SETTINGS_KEY, DEFAULT_SETTINGS);
+    if (!read(SIZELISTS_KEY, null)) write(SIZELISTS_KEY, SEED_SIZELISTS);
+    if (!read(CATEGORIES_KEY, null)) write(CATEGORIES_KEY, SEED_CATEGORIES);
+    if (!read(FINANCE_KEY, null)) write(FINANCE_KEY, SEED_FINANCE);
   }
 
   /* ---------- logo da marca / placeholder (SVG, funciona offline) ----------
@@ -215,14 +251,103 @@
   function getSettings() { ensureSeed(); return read(SETTINGS_KEY, DEFAULT_SETTINGS); }
   function saveSettings(data) { write(SETTINGS_KEY, Object.assign({}, getSettings(), data)); emitChange(); }
 
+  /* ---------- LISTAS DE TAMANHO ---------- */
+  function getSizeLists() { ensureSeed(); return read(SIZELISTS_KEY, []); }
+  function getSizeList(id) { return getSizeLists().filter(function (l) { return l.id === id; })[0] || null; }
+  function saveSizeList(data) {
+    var lists = getSizeLists();
+    var clean = {
+      id: data.id || "sl" + uid(),
+      name: String(data.name || "").trim() || "Sem nome",
+      sizes: normalizeList(data.sizes),
+    };
+    if (data.id && lists.some(function (l) { return l.id === data.id; })) {
+      lists = lists.map(function (l) { return l.id === data.id ? clean : l; });
+    } else { lists.push(clean); }
+    write(SIZELISTS_KEY, lists); emitChange(); return clean;
+  }
+  function removeSizeList(id) {
+    write(SIZELISTS_KEY, getSizeLists().filter(function (l) { return l.id !== id; }));
+    // Categorias que usavam esta lista ficam sem lista (tamanho livre).
+    write(CATEGORIES_KEY, getCategoryDefs().map(function (c) {
+      return c.sizeListId === id ? Object.assign({}, c, { sizeListId: "" }) : c;
+    }));
+    emitChange();
+  }
+
+  /* ---------- CATEGORIAS (com lista de tamanho vinculada) ---------- */
+  function getCategoryDefs() { ensureSeed(); return read(CATEGORIES_KEY, []); }
+  function saveCategory(data) {
+    var cats = getCategoryDefs();
+    var clean = {
+      id: data.id || "cat" + uid(),
+      name: String(data.name || "").trim(),
+      sizeListId: data.sizeListId || "",
+    };
+    if (!clean.name) return null;
+    if (data.id && cats.some(function (c) { return c.id === data.id; })) {
+      cats = cats.map(function (c) { return c.id === data.id ? clean : c; });
+    } else { cats.push(clean); }
+    write(CATEGORIES_KEY, cats); emitChange(); return clean;
+  }
+  function removeCategory(id) {
+    write(CATEGORIES_KEY, getCategoryDefs().filter(function (c) { return c.id !== id; }));
+    emitChange();
+  }
+  /* Tamanhos disponíveis para uma categoria = os da lista vinculada a ela. */
+  function sizesForCategory(categoryName) {
+    var cat = getCategoryDefs().filter(function (c) { return c.name === categoryName; })[0];
+    if (!cat || !cat.sizeListId) return [];
+    var list = getSizeList(cat.sizeListId);
+    return list ? list.sizes.slice() : [];
+  }
+
+  /* ---------- CONTROLE FINANCEIRO ---------- */
+  function getFinance() { ensureSeed(); return read(FINANCE_KEY, []).slice().sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); }); }
+  function addFinanceEntry(data) {
+    var list = read(FINANCE_KEY, []);
+    var clean = {
+      id: "fin" + uid(),
+      type: data.type === "despesa" ? "despesa" : "receita",
+      description: String(data.description || "").trim() || "Lançamento",
+      amount: Math.max(0, Number(data.amount) || 0),
+      date: data.date || new Date().toISOString().slice(0, 10),
+    };
+    list.push(clean); write(FINANCE_KEY, list); emitChange(); return clean;
+  }
+  function removeFinanceEntry(id) {
+    write(FINANCE_KEY, read(FINANCE_KEY, []).filter(function (e) { return e.id !== id; }));
+    emitChange();
+  }
+  function financeSummary() {
+    var f = read(FINANCE_KEY, []);
+    var receitas = 0, despesas = 0;
+    f.forEach(function (e) { if (e.type === "despesa") despesas += Number(e.amount) || 0; else receitas += Number(e.amount) || 0; });
+    return { receitas: receitas, despesas: despesas, saldo: receitas - despesas, lancamentos: f.length };
+  }
+  /* Receita por mês (YYYY-MM) — alimenta o gráfico do painel financeiro. */
+  function financeByMonth() {
+    var f = read(FINANCE_KEY, []);
+    var map = {};
+    f.forEach(function (e) {
+      var m = (e.date || "").slice(0, 7); if (!m) return;
+      if (!map[m]) map[m] = { month: m, receitas: 0, despesas: 0 };
+      if (e.type === "despesa") map[m].despesas += Number(e.amount) || 0;
+      else map[m].receitas += Number(e.amount) || 0;
+    });
+    return Object.keys(map).sort().map(function (k) { return map[k]; });
+  }
+
   function resetDemo() {
-    try { localStorage.removeItem(PRODUCTS_KEY); localStorage.removeItem(SETTINGS_KEY); } catch (e) {}
+    try {
+      [PRODUCTS_KEY, SETTINGS_KEY, SIZELISTS_KEY, CATEGORIES_KEY, FINANCE_KEY].forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
     ensureSeed(); emitChange();
   }
 
   /* Reage a mudanças feitas em outra aba (admin aberto ao lado da loja) */
   window.addEventListener("storage", function (e) {
-    if (e.key === PRODUCTS_KEY || e.key === SETTINGS_KEY) emitChange();
+    if ([PRODUCTS_KEY, SETTINGS_KEY, SIZELISTS_KEY, CATEGORIES_KEY, FINANCE_KEY].indexOf(e.key) !== -1) emitChange();
   });
 
   /* API pública */
@@ -241,5 +366,21 @@
     brandMonogram: brandMonogram,
     formatPrice: formatPrice,
     resetDemo: resetDemo,
+    // listas de tamanho
+    getSizeLists: getSizeLists,
+    getSizeList: getSizeList,
+    saveSizeList: saveSizeList,
+    removeSizeList: removeSizeList,
+    // categorias
+    getCategoryDefs: getCategoryDefs,
+    saveCategory: saveCategory,
+    removeCategory: removeCategory,
+    sizesForCategory: sizesForCategory,
+    // financeiro
+    getFinance: getFinance,
+    addFinanceEntry: addFinanceEntry,
+    removeFinanceEntry: removeFinanceEntry,
+    financeSummary: financeSummary,
+    financeByMonth: financeByMonth,
   };
 })();

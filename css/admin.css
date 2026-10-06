@@ -72,3 +72,27 @@
 
 .section { display: none; }
 .section.active { display: block; animation: rise 0.4s both; }
+
+/* ---- Chips (tamanhos do produto / categorias) ---- */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: var(--radius-pill);
+  font-size: var(--fs-xs); color: var(--muted); background: none; transition: all var(--t);
+}
+.chip:hover { color: var(--text); border-color: var(--muted); }
+.chip.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+/* ---- Formulário em linha (financeiro, categorias, listas) ---- */
+.fin-form { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+.fin-form .field > span { margin-bottom: 2px; }
+
+/* ---- Gráfico simples de barras (financeiro) ---- */
+.fin-chart { display: flex; align-items: flex-end; gap: 16px; height: 180px; padding-top: 8px; overflow-x: auto; }
+.fin-chart .bar-group { display: flex; flex-direction: column; align-items: center; gap: 8px; justify-content: flex-end; min-width: 54px; }
+.fin-chart .bars { display: flex; align-items: flex-end; gap: 5px; height: 150px; }
+.fin-chart .bar { width: 20px; border-radius: 4px 4px 0 0; min-height: 2px; transition: height var(--t); }
+.fin-chart .bar.rec { background: var(--success); }
+.fin-chart .bar.desp { background: var(--danger); }
+.fin-chart .bar-label { font-size: var(--fs-xs); color: var(--muted); }
+.fin-legend { display: flex; gap: 18px; margin-top: 12px; font-size: var(--fs-xs); color: var(--muted); }
+.fin-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
