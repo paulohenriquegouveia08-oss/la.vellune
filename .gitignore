@@ -1,4 +1,5 @@
 .DS_Store
 node_modules/
 .playwright-mcp/
+design-system-lv-mobile/
 *.log

@@ -733,24 +733,51 @@
   function wireSearch() {
     var input = $("#search");
     var clearBtn = $("#search-clear");
+    var mobInput = $("#mobile-search");
+    var mobClearBtn = $("#mobile-search-clear");
     var t;
+
+    function applySearch(val, source) {
+      clearTimeout(t);
+      if (source !== "desktop" && input) input.value = val;
+      if (source !== "mobile" && mobInput) mobInput.value = val;
+      if (clearBtn) clearBtn.style.display = val ? "block" : "none";
+      if (mobClearBtn) mobClearBtn.style.display = val ? "block" : "none";
+      t = setTimeout(function () {
+        state.search = val;
+        render();
+      }, 180);
+    }
+
+    function clearSearch() {
+      if (input) input.value = "";
+      if (mobInput) mobInput.value = "";
+      if (clearBtn) clearBtn.style.display = "none";
+      if (mobClearBtn) mobClearBtn.style.display = "none";
+      state.search = "";
+      render();
+    }
+
     if (input) {
       input.addEventListener("input", function () {
-        clearTimeout(t);
-        var val = input.value.trim();
-        if (clearBtn) clearBtn.style.display = val ? "block" : "none";
-        t = setTimeout(function () {
-          state.search = val;
-          render();
-        }, 180);
+        applySearch(input.value.trim(), "desktop");
       });
       if (clearBtn) {
         clearBtn.addEventListener("click", function () {
-          input.value = "";
-          clearBtn.style.display = "none";
-          state.search = "";
-          render();
+          clearSearch();
           input.focus();
+        });
+      }
+    }
+
+    if (mobInput) {
+      mobInput.addEventListener("input", function () {
+        applySearch(mobInput.value.trim(), "mobile");
+      });
+      if (mobClearBtn) {
+        mobClearBtn.addEventListener("click", function () {
+          clearSearch();
+          mobInput.focus();
         });
       }
     }
@@ -781,6 +808,8 @@
         state = { category: "all", search: "", priceMin: "", priceMax: "", size: "all", sort: "new", inStock: false, onlyWishlist: false };
         if ($("#search")) $("#search").value = "";
         if ($("#search-clear")) $("#search-clear").style.display = "none";
+        if ($("#mobile-search")) $("#mobile-search").value = "";
+        if ($("#mobile-search-clear")) $("#mobile-search-clear").style.display = "none";
         if (pmin) pmin.value = "";
         if (pmax) pmax.value = "";
         if (instock) instock.checked = false;

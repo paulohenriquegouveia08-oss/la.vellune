@@ -76,3 +76,27 @@ Documentação do Design System extraído e adaptado da **Louis Vuitton** (`http
 
 ### F. Modal de Produto em Tela Única
 - Preserva a exigência de **Zero Rolagem**: foto grande na esquerda, seletores elegantes na direita, botões de ação e garantia tudo visível de imediato.
+
+---
+
+## 5. Arquitetura Mobile & Responsividade (Louis Vuitton Mobile)
+
+- **Header Mobile em 2 Linhas**:
+  - *Linha 1*: `☰ Menu` na esquerda, logotipo `LA VELLUNE` centralizado e botões de `♡ Favoritos` e `🛍️ Sacola` na direita.
+  - *Linha 2*: Barra de pesquisa dedicada com formato de pílula (`#f4f3ef`, 38px, bordas arredondadas 999px), ícone de lupa e botão de limpar busca sincronizado em tempo real.
+- **Hero Editorial Mobile**:
+  - Altura otimizada e botões em coluna (`flex-direction: column; width: 100%; max-width: 320px;`) com toque confortável (`min-height: 46px`).
+- **Subnav Horizontal Touch**:
+  - Abas horizontais com scroll touch nativo sem barra de rolagem visível (`scrollbar-width: none; -webkit-overflow-scrolling: touch;`).
+- **Grade de Produtos 2 Colunas**:
+  - `grid-template-columns: repeat(2, 1fr); gap: 18px 10px;`.
+  - Cards com proporção de imagem 4:5, botões de favoritos (`♡`) de 30px com alvo de toque aprimorado.
+  - Tipografia de 12.5px para o nome e 13px para o preço, alinhada à elegância sutil da LV.
+- **Pílula Flutuante de Filtros & WhatsApp Concierge**:
+  - Botão `[ 🎛️ Filtros ]` centralizado no rodapé com respeito à `safe-area-inset-bottom`.
+  - Botão WhatsApp de 48px posicionado no canto inferior direito sem sobrepor os controles centrais.
+- **Gavetas Offcanvas (Filtros, Menu e Sacola)**:
+  - Ocupam 100% da largura em telas compactas (`< 540px`), com botões de ação fixos no rodapé com preenchimento para áreas seguras do dispositivo.
+- **Modal de Produto Mobile**:
+  - Estrutura vertical compacta (`max-height: min(90vh, 640px)`) que preserva a experiência de tela única sem que o usuário precise rolar para encontrar os seletores de tamanho e botões de compra.
+

@@ -249,10 +249,115 @@
 }
 
 @media (max-width: 880px) {
+  .site-header {
+    height: auto;
+  }
+  .header-container {
+    height: 56px;
+    padding: 0 14px;
+    gap: 8px;
+  }
+  .header-left {
+    flex: 0 0 auto;
+    gap: 6px;
+  }
+  .header-menu-btn {
+    padding: 6px 8px;
+    font-size: 12.5px;
+    gap: 6px;
+  }
   .header-search { display: none; }
-  .brand-logo-text { font-size: 1.15rem; letter-spacing: 0.2em; }
+  .header-center {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+  }
+  .brand-logo {
+    gap: 6px;
+  }
+  .brand-logo-img {
+    height: 28px;
+    max-width: 80px;
+  }
+  .brand-logo-text {
+    font-size: 1.05rem;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+  }
+  .header-right {
+    flex: 0 0 auto;
+    gap: 6px;
+  }
   .action-label { display: none; }
-  .header-action-link, .cart-btn { padding: 7px 10px; }
+  .header-action-link.wpp-link,
+  .header-action-link.admin-link {
+    display: none; /* Mantidos no Menu Drawer e Concierge Flutuante */
+  }
+  .wishlist-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .cart-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ---- Barra de Busca Mobile Dedicada (Inspirada na Louis Vuitton) ---- */
+.mobile-search-bar {
+  display: none;
+}
+@media (max-width: 880px) {
+  .mobile-search-bar {
+    display: block;
+    padding: 0 14px 10px;
+    background: transparent;
+  }
+  .mobile-search-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #f4f3ef;
+    border-radius: var(--radius-pill);
+    padding: 0 14px;
+    height: 38px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+  }
+  .mobile-search-inner:focus-within {
+    background: #ffffff;
+    border-color: #000000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+  .mobile-search-inner input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 12.5px;
+    color: var(--text);
+    outline: none;
+    font-family: var(--font-body);
+    padding-left: 6px;
+  }
+  .mobile-search-inner input::placeholder {
+    color: #888888;
+  }
+  .mobile-search-icon {
+    color: var(--muted);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .mobile-search-clear {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+  }
 }
 
 /* ---- Hero com Fundo de Banner Oficial da Loja ---- */
@@ -352,6 +457,38 @@
 .hero-btn-wpp:hover {
   background: #15803d !important;
   border-color: #15803d !important;
+}
+
+@media (max-width: 600px) {
+  .hero-with-banner {
+    padding: 60px 0 75px;
+  }
+  .hero-banner-indicator {
+    font-size: 9.5px;
+    padding: 6px 14px;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 24px;
+    padding: 0 8px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: 10px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+    font-size: 13px;
+  }
 }
 
 /* ---- Transição Suave entre Sessões (Banner -> Vitrine) ---- */
@@ -562,6 +699,43 @@
   font-weight: 500;
 }
 
+@media (max-width: 768px) {
+  .catalog {
+    padding: 24px 0 60px;
+  }
+  .catalog-full-container {
+    padding-inline: 14px;
+  }
+  .catalog-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+  }
+  .catalog-head-left {
+    width: 100%;
+  }
+  .catalog-title {
+    font-size: 1.85rem;
+  }
+  .catalog-head-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .btn-filter-trigger {
+    display: none; /* No mobile, o controle de filtros é a pílula flutuante Louis Vuitton */
+  }
+  .catalog-sort-wrap {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .catalog-sort-wrap .select {
+    padding: 6px 26px 6px 10px;
+    font-size: 12px;
+  }
+}
+
 /* ---- Grade de Produtos 4 Colunas (Estilo Louis Vuitton) ---- */
 .lv-product-grid {
   display: grid;
@@ -571,8 +745,8 @@
 @media (max-width: 1100px) {
   .lv-product-grid { grid-template-columns: repeat(3, 1fr); gap: 20px 16px; }
 }
-@media (max-width: 720px) {
-  .lv-product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 12px; }
+@media (max-width: 768px) {
+  .lv-product-grid { grid-template-columns: repeat(2, 1fr); gap: 18px 10px; }
 }
 
 /* ---- Card de Produto (Estilo Editorial Louis Vuitton) ---- */
@@ -752,6 +926,48 @@
   font-weight: 400;
 }
 
+@media (max-width: 768px) {
+  .card-body {
+    padding: 10px 0 0;
+    gap: 2px;
+  }
+  .card-name {
+    font-size: 12.5px;
+    line-height: 1.32;
+    letter-spacing: 0.2px;
+  }
+  .card .price {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .card .price-old {
+    font-size: 11px;
+  }
+  .card .price-installments {
+    font-size: 10px;
+    line-height: 1.25;
+  }
+  .card-wishlist-btn {
+    width: 30px;
+    height: 30px;
+    top: 6px;
+    right: 6px;
+    font-size: 13px;
+  }
+  .card-tags {
+    top: 6px;
+    left: 6px;
+  }
+  .card-tags .badge {
+    font-size: 8px;
+    padding: 2px 5px;
+    letter-spacing: 0.04em;
+  }
+  .card-quick-view-btn {
+    display: none;
+  }
+}
+
 /* ============================================================
    BOTÃO FLUTUANTE DE FILTROS (ESTILO PÍLULA LOUIS VUITTON)
    Centralizado no rodapé da viewport para acesso imediato
@@ -791,6 +1007,17 @@
   transform: scale(1.04);
 }
 .lv-floating-filter-pill i { font-size: 13px; }
+
+@media (max-width: 768px) {
+  .lv-floating-filter-wrapper {
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  .lv-floating-filter-pill {
+    padding: 8px 18px;
+    font-size: 12.5px;
+    gap: 8px;
+  }
+}
 
 /* ============================================================
    DRAWER LATERAL DE FILTROS (ESTILO LOUIS VUITTON)
@@ -908,6 +1135,26 @@
   background: #222222;
 }
 
+@media (max-width: 540px) {
+  .lv-filter-drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .lv-drawer-head {
+    padding: 18px 20px;
+  }
+  .lv-drawer-body {
+    padding: 20px;
+    gap: 20px;
+  }
+  .lv-drawer-foot {
+    padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+  }
+  .lv-menu-drawer {
+    width: min(320px, 86vw);
+  }
+}
+
 /* ============================================================
    MENU LATERAL OFFCANVAS (ESTILO LOUIS VUITTON)
    ============================================================ */
@@ -982,58 +1229,6 @@
   background: var(--border);
   margin: 12px 0;
 }
-  gap: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-  transition: background var(--t), color var(--t);
-}
-.card-quick-view-btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-.card-body {
-  padding: 16px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-}
-.card-brand {
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent-2);
-  font-weight: 700;
-}
-.card-name {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  line-height: 1.25;
-  color: var(--text);
-  font-weight: 600;
-}
-.card-foot {
-  margin-top: auto;
-  padding-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.card .price-row-card {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.card .price {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.card .price-installments {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 500;
-}
 
 /* ============================================================
    MODAL DE PRODUTO COMPACTO (100% EM TELA ÚNICA - SEM ROLAGEM)
@@ -1076,15 +1271,6 @@
 @keyframes modalPopIn {
   from { transform: scale(0.96) translateY(10px); opacity: 0; }
   to { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-@media (max-width: 768px) {
-  .modal-card {
-    grid-template-columns: 1fr;
-    max-height: 92vh;
-    height: auto;
-    overflow-y: auto;
-  }
 }
 
 .modal-close-btn {
@@ -1177,14 +1363,6 @@
   box-sizing: border-box;
   overflow: hidden;
   gap: 8px;
-}
-@media (max-width: 768px) {
-  .modal-info {
-    padding: 20px;
-    height: auto;
-    overflow: visible;
-    gap: 12px;
-  }
 }
 
 .modal-header-block {
@@ -1408,6 +1586,114 @@
   padding: 0;
 }
 .modal-share-link:hover { color: var(--text); text-decoration: underline; }
+
+/* ---- Modal de Produto no Mobile (100% em Tela Única - Sem Rolagem) ---- */
+@media (max-width: 768px) {
+  .modal-card {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    max-height: min(90vh, 660px);
+    height: auto;
+    width: min(440px, 94vw);
+    margin: auto;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .modal-gallery {
+    height: 180px;
+    flex: 0 0 180px;
+    position: relative;
+    background: #f7f6f4;
+  }
+  .modal-main-img-wrap {
+    height: 140px;
+    flex: none;
+    background: #f7f6f4;
+  }
+  .modal-main-img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+  .modal-thumbs-row {
+    height: 40px;
+    padding: 3px 8px;
+    flex: 0 0 40px;
+  }
+  .modal-thumb {
+    width: 34px;
+    height: 100%;
+  }
+  .modal-info {
+    flex: 1;
+    height: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 16px 14px;
+    gap: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .modal-header-block {
+    padding-right: 26px;
+    gap: 2px;
+  }
+  .modal-title {
+    font-size: 1.12rem;
+    line-height: 1.22;
+  }
+  .modal-pricing-compact {
+    padding: 6px 10px;
+    gap: 4px;
+    margin: 2px 0;
+  }
+  .modal-price-main .price {
+    font-size: 1.2rem;
+  }
+  .modal-desc-compact {
+    font-size: 11.5px;
+    line-height: 1.35;
+    -webkit-line-clamp: 2;
+    margin: 1px 0;
+  }
+  .modal-selectors-cluster {
+    gap: 4px;
+  }
+  .selector-label {
+    font-size: 10.5px;
+    min-width: 52px;
+  }
+  .modal-opt-btn {
+    padding: 4px 10px;
+    font-size: 10.5px;
+  }
+  .modal-actions-cluster {
+    margin-top: auto;
+    padding-top: 6px;
+    gap: 6px;
+  }
+  .modal-stepper button {
+    width: 28px;
+    height: 32px;
+  }
+  .modal-stepper span {
+    min-width: 24px;
+    font-size: 12px;
+  }
+  .btn-modal-add, .btn-modal-wpp {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
 
 /* ============================================================
    CARROSSEL 3D COVERFLOW DO INSTAGRAM
@@ -1887,4 +2173,42 @@
 .toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   RESPONSIVIDADE MOBILE GLOBAL (LOUIS VUITTON EDITORIAL)
+   ============================================================ */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 768px) {
+  .floating-wpp-btn {
+    width: 48px;
+    height: 48px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: 14px;
+    font-size: 24px;
+    z-index: 85;
+  }
+  .floating-wpp-tooltip {
+    display: none !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .drawer-head {
+    padding: 16px 20px;
+  }
+  .drawer-items {
+    padding: 16px 20px;
+  }
+  .drawer-foot {
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  }
 }
