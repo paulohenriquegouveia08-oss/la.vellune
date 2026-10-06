@@ -110,6 +110,7 @@
 
   /* ---------- formulário de produto ---------- */
   var currentImage = "";
+  var currentLogo = "";
   function openForm(id) {
     var p = id ? LV.getProduct(id) : null;
     currentImage = p ? (p.image || "") : "";
@@ -139,6 +140,7 @@
   }
 
   function updatePreview(src) { $("#img-preview").src = src; }
+  function updateLogoPreview() { var el = $("#logo-preview"); if (el) el.src = currentLogo || LV.brandMonogram(); }
 
   function wireForm() {
     var f = $("#product-form");
@@ -152,6 +154,14 @@
       reader.onload = function () { currentImage = reader.result; updatePreview(currentImage); f.imageUrl_.value = ""; };
       reader.readAsDataURL(file);
     });
+    // Remover foto: produto fica sem imagem e passa a mostrar a logo da loja.
+    var imgClear = $("#img-clear");
+    if (imgClear) imgClear.onclick = function () {
+      currentImage = "";
+      f.imageUrl_.value = "";
+      try { f.imageFile_.value = ""; } catch (e) {}
+      updatePreview(LV.imageOf({ image: "" }));
+    };
     f.onsubmit = function (e) {
       e.preventDefault();
       if (!f.name_.value.trim() || !f.price_.value) { toast("Preencha nome e preço"); return; }
@@ -174,14 +184,29 @@
     f.storeName.value = s.storeName; f.tagline.value = s.tagline; f.whatsapp.value = s.whatsapp;
     f.instagram.value = s.instagram; f.email.value = s.email; f.phone.value = s.phone;
     f.address.value = s.address; f.footerNote.value = s.footerNote; f.freeShippingFrom.value = s.freeShippingFrom;
+    currentLogo = s.logo || "";
+    // Guarda: HTML antigo em cache pode não ter o campo de logo ainda.
+    if (f.logoUrl) f.logoUrl.value = currentLogo && !/^data:/.test(currentLogo) ? currentLogo : "";
+    updateLogoPreview();
   }
   function wireSettings() {
-    $("#settings-form").onsubmit = function (e) {
-      e.preventDefault(); var f = e.target;
+    var f = $("#settings-form");
+    if (f.logoUrl) f.logoUrl.addEventListener("input", function () { currentLogo = this.value.trim(); updateLogoPreview(); });
+    if (f.logoFile) f.logoFile.addEventListener("change", function () {
+      var file = this.files[0]; if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () { currentLogo = reader.result; if (f.logoUrl) f.logoUrl.value = ""; updateLogoPreview(); };
+      reader.readAsDataURL(file);
+    });
+    var logoClear = $("#logo-clear");
+    if (logoClear) logoClear.onclick = function () { currentLogo = ""; if (f.logoUrl) f.logoUrl.value = ""; try { f.logoFile.value = ""; } catch (e) {} updateLogoPreview(); };
+    f.onsubmit = function (e) {
+      e.preventDefault();
       LV.saveSettings({
         storeName: f.storeName.value, tagline: f.tagline.value, whatsapp: f.whatsapp.value,
         instagram: f.instagram.value, email: f.email.value, phone: f.phone.value,
-        address: f.address.value, footerNote: f.footerNote.value, freeShippingFrom: Number(f.freeShippingFrom.value) || 0,
+        address: f.address.value, footerNote: f.footerNote.value,
+        freeShippingFrom: Number(f.freeShippingFrom.value) || 0, logo: currentLogo,
       });
       toast("Configurações salvas");
     };

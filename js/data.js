@@ -39,6 +39,8 @@
     address: "Rua Exemplo, 000 — Centro, Cidade/UF",
     footerNote: "CNPJ 00.000.000/0001-00 · Todos os direitos reservados",
     freeShippingFrom: 499,
+    /* Logo da loja (URL ou dataURL). Vazio = usa o monograma com o nome. */
+    logo: "",
   };
 
   /* ---------- helpers ---------- */
@@ -71,12 +73,16 @@
     if (!read(SETTINGS_KEY, null)) write(SETTINGS_KEY, DEFAULT_SETTINGS);
   }
 
-  /* ---------- imagem placeholder (SVG, funciona offline) ----------
-     Enquanto não há foto real, geramos um placeholder elegante com
-     as iniciais. O admin pode colar uma URL ou enviar uma imagem. */
-  function placeholderImage(product) {
-    var label = (product.brand || product.name || "LV").trim();
-    var initials = label.split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
+  /* ---------- logo da marca / placeholder (SVG, funciona offline) ----------
+     Quando o produto NÃO tem foto, a vitrine mostra a logo da loja. Se a
+     loja também não tiver logo cadastrada, cai neste monograma elegante
+     gerado a partir do NOME da loja (não das iniciais do produto). */
+  function xmlEsc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function brandMonogram() {
+    var name = (getSettings().storeName || "La Vellune").trim();
+    var initials = name.split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
     var svg =
       "<svg xmlns='http://www.w3.org/2000/svg' width='600' height='760'>" +
       "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>" +
@@ -85,15 +91,22 @@
       "<rect width='600' height='760' fill='url(#g)'/>" +
       "<rect x='20' y='20' width='560' height='720' fill='none' stroke='#c8a261' stroke-opacity='0.35'/>" +
       "<text x='300' y='360' font-family='Georgia,serif' font-size='120' fill='#c8a261' " +
-      "text-anchor='middle' opacity='0.85'>" + initials + "</text>" +
+      "text-anchor='middle' opacity='0.85'>" + xmlEsc(initials) + "</text>" +
       "<text x='300' y='430' font-family='Georgia,serif' font-size='26' fill='#f5f3ef' " +
-      "letter-spacing='6' text-anchor='middle' opacity='0.75'>LA VELLUNE</text>" +
+      "letter-spacing='6' text-anchor='middle' opacity='0.75'>" + xmlEsc(name.toUpperCase()) + "</text>" +
       "</svg>";
     return "data:image/svg+xml," + encodeURIComponent(svg);
   }
 
+  /* Imagem a exibir para um produto:
+     1) a foto do produto, se tiver;
+     2) senão, a logo da loja (configurações);
+     3) senão, o monograma com o nome da loja. */
   function imageOf(product) {
-    return product.image && product.image.trim() ? product.image : placeholderImage(product);
+    if (product && product.image && String(product.image).trim()) return String(product.image).trim();
+    var logo = getSettings().logo;
+    if (logo && String(logo).trim()) return String(logo).trim();
+    return brandMonogram();
   }
 
   function formatPrice(value) {
@@ -225,6 +238,7 @@
     getSettings: getSettings,
     saveSettings: saveSettings,
     imageOf: imageOf,
+    brandMonogram: brandMonogram,
     formatPrice: formatPrice,
     resetDemo: resetDemo,
   };

@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=20261006">
-  <link rel="stylesheet" href="../css/base.css?v=20261006">
-  <link rel="stylesheet" href="../css/admin.css?v=20261006">
+  <link rel="stylesheet" href="../css/tokens.css?v=20261006b">
+  <link rel="stylesheet" href="../css/base.css?v=20261006b">
+  <link rel="stylesheet" href="../css/admin.css?v=20261006b">
 </head>
 <body>
 
@@ -83,7 +83,11 @@
               <label class="field full"><span>Descrição</span><textarea class="textarea" name="desc_"></textarea></label>
               <label class="field"><span>Imagem por URL</span><input class="input" name="imageUrl_" placeholder="https://…"></label>
               <label class="field"><span>…ou enviar arquivo</span><input class="input" name="imageFile_" type="file" accept="image/*"></label>
-              <div class="field"><span>Pré-visualização</span><img id="img-preview" class="img-preview" alt=""></div>
+              <div class="field"><span>Pré-visualização</span>
+                <img id="img-preview" class="img-preview" alt="">
+                <button type="button" class="btn btn-outline btn-sm" id="img-clear" style="margin-top:8px">Remover foto</button>
+                <small class="muted" style="font-size:var(--fs-xs)">Sem foto, o produto mostra a logo da loja.</small>
+              </div>
               <label class="filter-check full" style="margin-top:4px"><input type="checkbox" name="featured_"> Destacar na vitrine</label>
             </div>
             <div class="form-actions">
@@ -109,6 +113,17 @@
               <label class="field full"><span>Endereço</span><input class="input" name="address"></label>
               <label class="field"><span>Frete grátis a partir de (R$)</span><input class="input" name="freeShippingFrom" type="number" min="0"></label>
               <label class="field"><span>Rodapé (CNPJ / direitos)</span><input class="input" name="footerNote"></label>
+              <div class="field full"><span>Logo da loja (aparece quando o produto não tem foto)</span>
+                <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-top:4px">
+                  <img id="logo-preview" class="img-preview" style="width:90px;aspect-ratio:1/1;object-fit:contain;padding:8px" alt="">
+                  <div style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:220px">
+                    <input class="input" name="logoUrl" placeholder="URL da logo (https://…)">
+                    <input class="input" name="logoFile" type="file" accept="image/*">
+                    <button type="button" class="btn btn-outline btn-sm" id="logo-clear">Remover logo</button>
+                    <small class="muted" style="font-size:var(--fs-xs)">Sem logo, usamos um monograma com o nome da loja.</small>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar configurações</button></div>
           </form>
@@ -124,7 +139,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="../js/data.js?v=20261006"></script>
-  <script src="../js/admin.js?v=20261006"></script>
+  <script src="../js/data.js?v=20261006b"></script>
+  <script src="../js/admin.js?v=20261006b"></script>
 </body>
 </html>
